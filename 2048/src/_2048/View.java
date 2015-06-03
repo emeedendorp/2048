@@ -95,118 +95,170 @@ public class View
     }
   }
   
-  public void links()
-  {
-    
-	  //nieuwe Arraylist met de grootte van het veld
-	  ArrayList<Integer> nieuw = new ArrayList<Integer>(this.rijen * this.kolommen);
-	  //voor elke rij:
-	  for (int j = 0; j < this.rijen; j++) {
-      ArrayList<Integer> rij1 = new ArrayList<Integer>(this.kolommen);
-      //voor elk getal in de rij:
-      for (int i = 0; i < this.kolommen; i++) {
-    	  //voeg de waarde uit de array waarden(huidige speelveld) toe aan de tijdelijke array rij1
-    	  rij1.add((Integer)this.waarden.get(j * this.kolommen + i));
-      }
-      //voer checkmatches uit op de tijdelijke doelarray, sla deze op in een nieuwe doelarray
-      ArrayList<Integer> rij2 = checkmatches(swipeLinks(rij1));
-      // voeg vervolgens de tijdelijke array op in de doelarray
-      for (int i = 0; i < this.kolommen; i++) {
-        nieuw.add((Integer)rij2.get(i));
-      }
-    }
-	//zet de waarden van de doelarray naar de waarden-array
-    for (int i = 0; i < this.rijen * this.kolommen; i++) {
-      this.waarden.set(i, (Integer)nieuw.get(i));
-    }
-    repaint();
-    System.out.println(this.waarden);
-    this.waarden = voegwaardetoe(this.waarden);
-    System.out.println(this.waarden);
+
+// **** NIEUWE SETUP ******
+  public void swipe(int richting){
+		ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
+		ArrayList<ArrayList<Integer>> returnLijst = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> rij = new ArrayList<Integer>();
+		for (int i = 0; i < rijenLijst.size();i++){
+			if (richting == 0){
+			rij = sorteren(rijenLijst.get(i));
+			}
+			else if (richting == 1){
+			rij = sorteerRechts(rijenLijst.get(i));	
+			}
+			returnLijst.add(rij);
+		}
+		for (int i = 0; i< returnLijst.size(); i++){
+			int counter= 0;
+			rij = returnLijst.get(i);
+			for (int j=0; j<rij.size();j++){			
+				waarden.set(j+counter, rij.get(j));
+				counter++;
+			}
+		}
+		waarden = convertToList(returnLijst);
+		voegNieuwGetalToe();
+		repaint();
+		
+	}
+  private ArrayList<Integer> convertToList(ArrayList<ArrayList<Integer>> list){
+	  	ArrayList<Integer> rij = new ArrayList<Integer>();
+	  	ArrayList<Integer> newList = new ArrayList<Integer>();
+	  	for (int i = 0; i< list.size();i++){
+	  		rij = list.get(i);
+	  		for (int j=0; j < rij.size(); j++){
+	  			newList.add(rij.get(j));
+	  		}
+	  	}  	
+	  	return newList;
   }
   
-  public ArrayList<Integer> swipeLinks(ArrayList<Integer> rij1)
-  {
-    ArrayList<Integer> rij2 = new ArrayList<Integer>(this.rijen * this.kolommen);
-    
-    int rij2count = 0;
-    for (int i = 0; i < this.kolommen; i++) {
-      if (((Integer)rij1.get(i)).intValue() != 0)
-      {
-        rij2.add((Integer)rij1.get(i));
-        rij2count++;
-      }
-    }
-    while (rij2count < this.kolommen)
-    {
-      rij2.add(Integer.valueOf(0));
-      rij2count++;
-    }
-    return rij2;
-  }
-  
-  public ArrayList<Integer> checkmatches(ArrayList<Integer> rij1)
-  {
-    boolean checked = false;
-    ArrayList<Integer> rij2 = new ArrayList<Integer>(this.kolommen * this.rijen);
-    if (rij1.get(0) == rij1.get(1))
-    {
-      rij2.add(Integer.valueOf(((Integer)rij1.get(0)).intValue() * 2));
-      rij2.add(Integer.valueOf(0));
-      checked = true;
-    }
-    else
-    {
-      rij2.add((Integer)rij1.get(0));
-    }
-    for (int i = 1; i < this.kolommen - 1; i++) {
-      if ((rij1.get(i) == rij1.get(i + 1)) && (!checked))
-      {
-        rij2.add(Integer.valueOf(((Integer)rij1.get(i)).intValue() * 2));
-        rij2.add(Integer.valueOf(0));
-        checked = true;
-      }
-      else if (checked)
-      {
-        checked = false;
-      }
-      else
-      {
-        rij2.add((Integer)rij1.get(1));
-      }
-    }
-    if (checked) {
-      checked = false;
-    } else {
-      rij2.add((Integer)rij1.get(this.kolommen - 1));
-    }
-    return rij2;
-  }
-  
-  public ArrayList<Integer> voegwaardetoe(ArrayList<Integer> rij1)
-  {
-    int telnullen = 0;
-    for (int i = 0; i < this.rijen * this.kolommen; i++) {
-      if (((Integer)rij1.get(i)).intValue() != 0) {
-        telnullen++;
-      }
-    }
-    int spawnpositie = (int)(Math.random() * telnullen);
-    int teller = 0;
-    for (int i = 0; i < this.rijen * this.kolommen; i++) {
-      if (((Integer)rij1.get(i)).intValue() == 0) {
-        if (teller == spawnpositie)
-        {
-          rij1.set(i, Integer.valueOf(2));
-          System.out.println("2 toegoevoegd aan " + i);
-          teller++;
-        }
-        else
-        {
-          teller++;
-        }
-      }
-    }
-    return rij1;
-  }
+private ArrayList<ArrayList<Integer>> maakRijen(){
+		  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
+		  int counter = 0;
+		  for (int i = 0; i< rijen; i++){
+			  ArrayList<Integer> rij = new ArrayList<Integer>();
+			  for (int j = 0; j < kolommen; j++){
+				  rij.add(waarden.get(counter));
+				  counter++;
+			  }
+			  rijenLijst.add(rij);
+		  }
+		  return rijenLijst;
+	}
+
+private ArrayList<Integer> sorteerLinks( ArrayList<Integer> rij){
+	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)!=0){
+			newRij.add(rij.get(i));
+		}
+	}
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)==0){
+			newRij.add(0);
+		}
+	}
+	newRij = telOp(newRij);
+	return newRij;
+}
+private ArrayList<Integer> sorteren(ArrayList<Integer> rij){
+	rij = sorteerLinks(rij);
+	rij = telOp(rij);
+	rij = sorteerLinks(rij);
+	return rij;
+}
+private ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
+	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)==0){
+			newRij.add(0);
+		}
+	}
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)!=0){
+			newRij.add(rij.get(i));
+		}
+	}
+	newRij = telOp(newRij);
+	return newRij;
+}
+
+private void voegNieuwGetalToe(){
+	//check of waarden vol is
+	boolean vol = true;
+	for (int i = 0; i < waarden.size(); i++){
+		if (waarden.get(i)== 0){
+			vol = false;
+		}
+	}
+	while (!vol){
+		int newPos = (int)(Math.random()*waarden.size());
+		if (waarden.get(newPos)==0){
+			waarden.set(newPos, 2);
+			vol = true;
+		}
+	}
+}
+private ArrayList<Integer> telOp(ArrayList<Integer> rij){
+	ArrayList<Integer> newRij = new ArrayList<Integer>();
+		int getal1 = rij.get(0);
+		int getal2 = rij.get(1);
+		//getal 1
+		if (getal1 == getal2){
+			newRij.add(getal1*2);
+			getal1 = 0;	
+		}
+		else{
+			newRij.add(getal1);			
+			getal1 = getal2;
+		}
+		//getal 2 t/m voorlaatst
+		for (int i = 2; i < rij.size(); i++){
+			getal2 = rij.get(i);
+			if (getal1 == getal2){
+				newRij.add(getal1*2);
+				getal1= 0;
+			}
+			else {
+				newRij.add(getal1);
+				getal1 = getal2;
+			}
+		}
+		//laatste getal
+		newRij.add(getal1);
+	return newRij;
+}
+private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
+	ArrayList<Integer> newRij = new ArrayList<Integer>();
+		int size = rij.size();
+		int getal1 = rij.get(size);
+		int getal2 = rij.get(size-1);
+		//getal 1
+		if (getal1 == getal2){
+			newRij.add(getal1*2);
+			getal1 = 0;	
+		}
+		else{
+			newRij.add(getal1);			
+			getal1 = getal2;
+		}
+		//getal 2 t/m voorlaatst
+		for (int i = 2; i < rij.size(); i++){
+			getal2 = rij.get(i);
+			if (getal1 == getal2){
+				newRij.add(getal1*2);
+				getal1= 0;
+			}
+			else {
+				newRij.add(getal1);
+				getal1 = getal2;
+			}
+		}
+		//laatste getal
+		newRij.add(getal1);
+	return newRij;
+}
 }

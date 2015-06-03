@@ -15,7 +15,13 @@ public class myKl
   
   public void keyPressed(KeyEvent e)
   {
-    this.view.links();
+	  int code = e.getKeyCode();
+	  if (code ==37){
+	  this.view.swipe(0);
+	  }
+	  if (code ==39){
+	  this.view.swipe(1);
+	  }
   }
   
   public void keyReleased(KeyEvent e) {}
