@@ -103,10 +103,11 @@ public class View
 		ArrayList<Integer> rij = new ArrayList<Integer>();
 		for (int i = 0; i < rijenLijst.size();i++){
 			if (richting == 0){
-			rij = sorteren(rijenLijst.get(i));
+			rij = sorteerLinks(rijenLijst.get(i));
 			}
 			else if (richting == 1){
 			rij = sorteerRechts(rijenLijst.get(i));	
+			System.out.println("r3: "+ rij);
 			}
 			returnLijst.add(rij);
 		}
@@ -151,38 +152,56 @@ private ArrayList<ArrayList<Integer>> maakRijen(){
 
 private ArrayList<Integer> sorteerLinks( ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	// alle getallen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
 		if (rij.get(i)!=0){
 			newRij.add(rij.get(i));
 		}
 	}
+	//alle nullen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
 		if (rij.get(i)==0){
 			newRij.add(0);
 		}
 	}
-	newRij = telOp(newRij);
+	// gelijke getallen bijelkaar optellen
+	// lege plekken opvullen met nullen
+	rij = telOp(newRij);
+	//array resetten
+	newRij = new ArrayList<Integer>();
+	// alle getallen neerzetten
+	// getallen nog een keer vooraan zetten
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)!=0){
+			newRij.add(rij.get(i));
+		}
+	}
+	//alle nullen neerzetten
+	for (int i = 0; i < rij.size(); i ++){
+		if (rij.get(i)==0){
+			newRij.add(0);
+		}
+	}
 	return newRij;
 }
-private ArrayList<Integer> sorteren(ArrayList<Integer> rij){
-	rij = sorteerLinks(rij);
-	rij = telOp(rij);
-	rij = sorteerLinks(rij);
-	return rij;
-}
+
 private ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	// alle nullen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
 		if (rij.get(i)==0){
 			newRij.add(0);
 		}
 	}
+	// alle getallen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
 		if (rij.get(i)!=0){
 			newRij.add(rij.get(i));
 		}
 	}
-	newRij = telOp(newRij);
+	
+	newRij = telOpRechts(newRij);
+	
 	return newRij;
 }
 
@@ -215,13 +234,15 @@ private ArrayList<Integer> telOp(ArrayList<Integer> rij){
 			newRij.add(getal1);			
 			getal1 = getal2;
 		}
-		//getal 2 t/m voorlaatst
+		//getal 2 t/m voorlaatst		
 		for (int i = 2; i < rij.size(); i++){
 			getal2 = rij.get(i);
+			//als het volgende getal gelijk is verdubbelen
 			if (getal1 == getal2){
 				newRij.add(getal1*2);
 				getal1= 0;
 			}
+			//anders gewoon het eerste getal wegschrijven 
 			else {
 				newRij.add(getal1);
 				getal1 = getal2;
@@ -233,9 +254,10 @@ private ArrayList<Integer> telOp(ArrayList<Integer> rij){
 }
 private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
-		int size = rij.size();
+		int size = rij.size()-1;
 		int getal1 = rij.get(size);
 		int getal2 = rij.get(size-1);
+		// --- getallen in omgekeerde volgorde opslaan 
 		//getal 1
 		if (getal1 == getal2){
 			newRij.add(getal1*2);
@@ -246,7 +268,7 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 			getal1 = getal2;
 		}
 		//getal 2 t/m voorlaatst
-		for (int i = 2; i < rij.size(); i++){
+		for (int i = size-2; i >= 0; i--){
 			getal2 = rij.get(i);
 			if (getal1 == getal2){
 				newRij.add(getal1*2);
@@ -259,6 +281,15 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 		}
 		//laatste getal
 		newRij.add(getal1);
+		// we hebben nu de omgekeerde rij van wat we willen
+		// rij inverteren
+		rij = newRij;
+		//array resetten
+		newRij = new ArrayList<Integer>();
+		for (int i = rij.size()-1; i>=0;i--){
+			newRij.add(rij.get(i));
+		}
+		System.out.println("nr2:" +newRij);
 	return newRij;
 }
 }
