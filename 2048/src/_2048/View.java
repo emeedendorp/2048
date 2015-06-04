@@ -107,7 +107,10 @@ public class View
 			}
 			else if (richting == 1){
 			rij = sorteerRechts(rijenLijst.get(i));	
-			System.out.println("r3: "+ rij);
+			}
+			else if (richting == 2){
+			maakVertRijen();
+			return;
 			}
 			returnLijst.add(rij);
 		}
@@ -149,6 +152,30 @@ private ArrayList<ArrayList<Integer>> maakRijen(){
 		  }
 		  return rijenLijst;
 	}
+private ArrayList<ArrayList<Integer>> maakVertRijen(){
+	  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
+		//maak aantal arrays gelijk aan kolommen en vul deze met 1 waarde
+	  	int count = 0;
+	  	for (int j = 0; j< kolommen; j++){
+		  ArrayList<Integer> rij = new ArrayList<Integer>();
+		  rij.add(waarden.get(count));
+		  rijenLijst.add(rij);
+		  count++;
+		}  
+	  
+	  	//voor de resterende rijen, haal de bijbehorende array op en vul deze aan met 1 waarde
+	  for (int i = 1; i < rijen; i++){
+	  		for (int j = 0; j< kolommen; j++){
+	  		ArrayList<Integer>rij = rijenLijst.get(j);
+			  rij.add(waarden.get(count));
+			  count++;
+			  rijenLijst.set(j, rij);
+	  		}
+		  }
+	  System.out.println(rijenLijst);
+	  System.out.println("---- einde lijst ------");
+	  return rijenLijst;
+}
 
 private ArrayList<Integer> sorteerLinks( ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
@@ -289,7 +316,6 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 		for (int i = rij.size()-1; i>=0;i--){
 			newRij.add(rij.get(i));
 		}
-		System.out.println("nr2:" +newRij);
 	return newRij;
 }
 }

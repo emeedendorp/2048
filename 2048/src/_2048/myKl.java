@@ -22,6 +22,9 @@ public class myKl
 	  if (code ==39){
 	  this.view.swipe(1);
 	  }
+	  if (code ==40){
+		  this.view.swipe(2);
+	  }
   }
   
   public void keyReleased(KeyEvent e) {}

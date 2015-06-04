@@ -14,7 +14,7 @@ public class Main
     JFrame frame = new Main();
     frame.setSize(500, 500);
     frame.setDefaultCloseOperation(3);
-    frame.setTitle("Letterrobot");
+    frame.setTitle("2048");
     frame.setContentPane(new Hoofdpaneel());
     frame.setVisible(true);
   }
