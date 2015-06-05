@@ -98,7 +98,9 @@ public class View
 
 // **** NIEUWE SETUP ******
   public void swipe(int richting){
-		
+		if (checkFull()){
+			System.out.println("Geen zetten meer.");
+		}
 	  	ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
 		if (richting < 2){
 			rijenLijst = maakRijen();
@@ -133,6 +135,32 @@ public class View
 		repaint();
 		
 	}
+  
+  private boolean checkFull(){
+	  boolean full = true;
+	  boolean allZeros = false;
+	  for (int i = 0; i < waarden.size();i++ ){
+		  if (waarden.get(i) == 0){
+			  allZeros = true;		  }
+	  }
+	  //check horizontaal
+	  int counter = 0;
+	  int getal1 = 0;
+	  int getal2 = 0;
+	  for (int i =0; i < rijen; i++){
+		  for (int j = 0 ; j < kolommen-1; j++){
+			  getal1= waarden.get(counter);
+			  counter++;
+			  getal2= waarden.get(counter);
+			  if (getal1 == getal2){
+				  full= false;
+			  }
+		  }
+	  }
+	  //check verticaal
+	  
+	return full;
+  }
   private ArrayList<ArrayList<Integer>> transponeer(ArrayList<ArrayList<Integer>>  lijst){
 	  ArrayList<ArrayList<Integer>>  bufferLijst = new ArrayList<ArrayList<Integer>>();
 	  ArrayList<Integer> rij = new ArrayList<Integer>();
