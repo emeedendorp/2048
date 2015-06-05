@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 public class View
   extends JPanel
 {
-  int x = 20;
-  int y = 20;
+  int x = 40;
+  int y = 40;
   int breedte = 400;
   int hoogte = 400;
   int rijen = 5;
@@ -119,11 +119,15 @@ public class View
 			else if (richting == 2){	
 			rij = sorteerLinks(rij);
 			}
+			else if (richting == 3){	
+			rij = sorteerRechts(rij);
+			}
 			returnLijst.add(rij);
 		}
 		if (richting > 1){
 			returnLijst = transponeer(returnLijst);
 		}
+
 		waarden = convertToList(returnLijst);
 		voegNieuwGetalToe();
 		repaint();
@@ -334,10 +338,15 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 		// rij inverteren
 		rij = newRij;
 		//array resetten
-		newRij = new ArrayList<Integer>();
-		for (int i = rij.size()-1; i>=0;i--){
-			newRij.add(rij.get(i));
-		}
+		newRij = inverteren(newRij);
 	return newRij;
+}
+private ArrayList<Integer> inverteren (ArrayList<Integer> rij){
+	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	for (int i = rij.size()-1; i>=0;i--){
+		newRij.add(rij.get(i));
+	}
+	return newRij;
+	
 }
 }
