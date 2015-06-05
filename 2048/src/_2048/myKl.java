@@ -16,13 +16,13 @@ public class myKl
   public void keyPressed(KeyEvent e)
   {
 	  int code = e.getKeyCode();
-	  if (code ==37){
+	  if (code ==37){//pijl naar links
 	  this.view.swipe(0);
 	  }
-	  if (code ==39){
+	  if (code ==39){//pijl naar rechts
 	  this.view.swipe(1);
 	  }
-	  if (code ==40){
+	  if (code ==38){//pijl naar boven
 		  this.view.swipe(2);
 	  }
   }

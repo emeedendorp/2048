@@ -15,7 +15,7 @@ public class View
   int y = 20;
   int breedte = 400;
   int hoogte = 400;
-  int rijen = 4;
+  int rijen = 5;
   int kolommen = 4;
   Color background = Color.GRAY;
   Color foreground = Color.BLACK;
@@ -98,35 +98,59 @@ public class View
 
 // **** NIEUWE SETUP ******
   public void swipe(int richting){
-		ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
+		
+	  	ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
+		if (richting < 2){
+			rijenLijst = maakRijen();
+		}
+		else{
+			rijenLijst = maakVertRijen();
+		}
 		ArrayList<ArrayList<Integer>> returnLijst = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> rij = new ArrayList<Integer>();
 		for (int i = 0; i < rijenLijst.size();i++){
+			rij = rijenLijst.get(i);
 			if (richting == 0){
-			rij = sorteerLinks(rijenLijst.get(i));
+			rij = sorteerLinks(rij);
 			}
 			else if (richting == 1){
-			rij = sorteerRechts(rijenLijst.get(i));	
+			rij = sorteerRechts(rij);	
 			}
-			else if (richting == 2){
-			maakVertRijen();
-			return;
+			else if (richting == 2){	
+			rij = sorteerLinks(rij);
 			}
 			returnLijst.add(rij);
 		}
-		for (int i = 0; i< returnLijst.size(); i++){
-			int counter= 0;
-			rij = returnLijst.get(i);
-			for (int j=0; j<rij.size();j++){			
-				waarden.set(j+counter, rij.get(j));
-				counter++;
-			}
+		if (richting > 1){
+			returnLijst = transponeer(returnLijst);
 		}
 		waarden = convertToList(returnLijst);
 		voegNieuwGetalToe();
 		repaint();
 		
 	}
+  private ArrayList<ArrayList<Integer>> transponeer(ArrayList<ArrayList<Integer>>  lijst){
+	  ArrayList<ArrayList<Integer>>  bufferLijst = new ArrayList<ArrayList<Integer>>();
+	  ArrayList<Integer> rij = new ArrayList<Integer>();
+		  // arrays aanmaken en 1e waarde wegschrijven
+		  rij = lijst.get(0);
+		  for (int j = 0; j<rij.size(); j++){
+			  ArrayList<Integer> bufferRij = new ArrayList<Integer>();
+			  bufferRij.add(rij.get(j));
+			  bufferLijst.add(bufferRij);
+		  }
+		  // volgende waarden wegschrijven
+		 for (int i = 1; i< lijst.size();i++){ 
+			 rij = lijst.get(i);
+			  for (int j = 0; j<rij.size(); j++){
+				  ArrayList<Integer> bufferRij = bufferLijst.get(j);
+				  bufferRij.add(rij.get(j));
+				  bufferLijst.set(j, bufferRij);
+			  }
+	  }
+	return bufferLijst;
+	  
+  }
   private ArrayList<Integer> convertToList(ArrayList<ArrayList<Integer>> list){
 	  	ArrayList<Integer> rij = new ArrayList<Integer>();
 	  	ArrayList<Integer> newList = new ArrayList<Integer>();
@@ -172,8 +196,6 @@ private ArrayList<ArrayList<Integer>> maakVertRijen(){
 			  rijenLijst.set(j, rij);
 	  		}
 		  }
-	  System.out.println(rijenLijst);
-	  System.out.println("---- einde lijst ------");
 	  return rijenLijst;
 }
 
