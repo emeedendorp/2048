@@ -136,13 +136,8 @@ public class View
 		
 	}
   
-  private boolean checkFull(){
+  protected boolean checkFull(){
 	  boolean full = true;
-	  boolean allZeros = false;
-	  for (int i = 0; i < waarden.size();i++ ){
-		  if (waarden.get(i) == 0){
-			  allZeros = true;		  }
-	  }
 	  //check horizontaal
 	  int counter = 0;
 	  int getal1 = 0;
@@ -154,12 +149,25 @@ public class View
 			  getal2= waarden.get(counter);
 			  if (getal1 == getal2){
 				  full= false;
-			  }
+			  } 
+			  
 		  }
+		counter++;
 	  }
 	  //check verticaal
-	  
+	  int pos1 = 0;
+	  int pos2= kolommen;
+	  for (int i=0; i < waarden.size()-kolommen;i++){
+		  getal1 = waarden.get(pos1);
+		  getal2 = waarden.get(pos2);
+		  if (getal1==getal2){
+			  full=false;
+		  }
+		  pos1++;
+		  pos2++;
+	  }
 	return full;
+	
   }
   private ArrayList<ArrayList<Integer>> transponeer(ArrayList<ArrayList<Integer>>  lijst){
 	  ArrayList<ArrayList<Integer>>  bufferLijst = new ArrayList<ArrayList<Integer>>();
@@ -266,7 +274,7 @@ private ArrayList<Integer> sorteerLinks( ArrayList<Integer> rij){
 	return newRij;
 }
 
-private ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
+protected ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
 	// alle nullen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
