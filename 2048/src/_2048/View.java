@@ -15,8 +15,8 @@ public class View
   int y = 40;
   int breedte = 400;
   int hoogte = 400;
-  int rijen = 5;
-  int kolommen = 4;
+  int rijen = 3;
+  int kolommen = 3;
   Color background = Color.GRAY;
   Color foreground = Color.BLACK;
   ArrayList<Integer> waarden = new ArrayList<Integer>(this.rijen * this.kolommen);
@@ -99,6 +99,7 @@ public class View
 // **** NIEUWE SETUP ******
   public void swipe(int richting){
 		if (checkFull()){
+			System.out.print(waarden+" -> ");
 			System.out.println("Geen zetten meer.");
 		}
 	  	ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
@@ -121,7 +122,7 @@ public class View
 			else if (richting == 2){	
 			rij = sorteerLinks(rij);
 			}
-			else if (richting == 3){	
+			else if (richting == 3){
 			rij = sorteerRechts(rij);
 			}
 			returnLijst.add(rij);
@@ -129,7 +130,6 @@ public class View
 		if (richting > 1){
 			returnLijst = transponeer(returnLijst);
 		}
-
 		waarden = convertToList(returnLijst);
 		voegNieuwGetalToe();
 		repaint();
@@ -138,10 +138,18 @@ public class View
   
   protected boolean checkFull(){
 	  boolean full = true;
-	  //check horizontaal
+	  //check horizontaal of er nog naast elkaar liggende waarden zijn
 	  int counter = 0;
 	  int getal1 = 0;
 	  int getal2 = 0;
+	  //check of er nog nullen zijn --> return false;
+	  for (int i =0; i < rijen; i++){
+		  if (waarden.get(i)==0){
+			  return false;
+		  }
+	  }
+	  
+	  
 	  for (int i =0; i < rijen; i++){
 		  for (int j = 0 ; j < kolommen-1; j++){
 			  getal1= waarden.get(counter);
@@ -154,7 +162,7 @@ public class View
 		  }
 		counter++;
 	  }
-	  //check verticaal
+	  //check verticaal of er nog naast elkaar liggende waarden zijn
 	  int pos1 = 0;
 	  int pos2= kolommen;
 	  for (int i=0; i < waarden.size()-kolommen;i++){
@@ -203,7 +211,7 @@ public class View
 	  	return newList;
   }
   
-private ArrayList<ArrayList<Integer>> maakRijen(){
+protected ArrayList<ArrayList<Integer>> maakRijen(){
 		  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
 		  int counter = 0;
 		  for (int i = 0; i< rijen; i++){
@@ -276,6 +284,7 @@ private ArrayList<Integer> sorteerLinks( ArrayList<Integer> rij){
 
 protected ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 	ArrayList<Integer> newRij = new ArrayList<Integer>();
+	rij = telOpRechts(rij);
 	// alle nullen neerzetten
 	for (int i = 0; i < rij.size(); i ++){
 		if (rij.get(i)==0){
@@ -288,9 +297,6 @@ protected ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 			newRij.add(rij.get(i));
 		}
 	}
-	
-	newRij = telOpRechts(newRij);
-	
 	return newRij;
 }
 
@@ -370,19 +376,22 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 		}
 		//laatste getal
 		newRij.add(getal1);
-		// we hebben nu de omgekeerde rij van wat we willen
-		// rij inverteren
-		rij = newRij;
-		//array resetten
-		newRij = inverteren(newRij);
+		// we hebben nu de omgekeerde rij van wat we willen, maar de nullen zijn nog niet apart
+		// nullen achteraan zetten (is nog steeds de omgekeerde rij)
+		ArrayList<Integer> bufferRij = new ArrayList<Integer>();
+		//nullen
+		for (int j=0;j<newRij.size();j++){
+			if (newRij.get(j)==0){
+				bufferRij.add(0);
+			}
+		}
+		//niet-nullen
+		for (int j=newRij.size()-1;j>=0;j--){
+			if (newRij.get(j)!=0){
+				bufferRij.add(newRij.get(j));
+			}
+		}
+		newRij= bufferRij;
 	return newRij;
-}
-private ArrayList<Integer> inverteren (ArrayList<Integer> rij){
-	ArrayList<Integer> newRij = new ArrayList<Integer>();
-	for (int i = rij.size()-1; i>=0;i--){
-		newRij.add(rij.get(i));
-	}
-	return newRij;
-	
 }
 }

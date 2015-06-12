@@ -15,21 +15,21 @@ public class TestFailure {
 	    
 	    //testArrays
 	    ArrayList<Integer> array1 = new ArrayList<Integer>();
-	    array1.add(2);
-	    array1.add(2);
+	    array1.add(32);
+	    array1.add(16);
 	    array1.add(4);
-	    array1.add(0);
+	    array1.add(4);
 	    
 	    //verwacht resultaat
 	    ArrayList<Integer> array2 = new ArrayList<Integer>();
 	    array2.add(0);
-	    array2.add(0);
-	    array2.add(4);
-	    array2.add(4);
+	    array2.add(32);
+	    array2.add(16);
+	    array2.add(8);
 
-	    //System.out.println("array1: " + array1);
-	    //System.out.println("array2: " + array2);
-	    //System.out.println("sorteerRechts(array1): " + tester.sorteerRechts(array1));
+	    System.out.println("array1: " + array1);
+	    System.out.println("array2: " + array2);
+	    System.out.println("sorteerRechts(array1): " + tester.sorteerRechts(array1));
 	    
 	    // assert statements
 	    assertEquals("2 2 4 0 --> 0 0 4 4", array2, tester.sorteerRechts(array1));
