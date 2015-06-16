@@ -12,7 +12,7 @@ public class Main
   public static void main(String[] args)
   {
     JFrame frame = new Main();
-    frame.setSize(500, 500);
+    frame.setSize(500, 600);
     frame.setDefaultCloseOperation(3);
     frame.setTitle("2048");
     frame.setContentPane(new Hoofdpaneel());

@@ -2,8 +2,11 @@ package _2048;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -11,35 +14,28 @@ import javax.swing.JPanel;
 public class View
   extends JPanel
 {
-  int x = 40;
-  int y = 40;
-  int breedte = 400;
-  int hoogte = 400;
-  int rijen = 3;
-  int kolommen = 3;
-  Color background = Color.GRAY;
-  Color foreground = Color.BLACK;
-  ArrayList<Integer> waarden = new ArrayList<Integer>(this.rijen * this.kolommen);
-  private static final long serialVersionUID = 1L;
-  int newx;
-  int newy;
-  FontMetrics fm;
+
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Settings settings;
   
   public View() {
-    
+	  settings = new Settings();
 	  //maak een array aan met waarden 0
-	  for (int i = 0; i < this.rijen * this.kolommen; i++) {
-      this.waarden.add(0);
+	  for (int i = 0; i <settings.rijen * settings.kolommen; i++) {
+		  settings.waarden.add(0);
     }
 	  //voeg een getal toe op een willekeurige plek
-    int beginwaarde1 = (int)(Math.random() * this.rijen * this.kolommen);
-    this.waarden.set(beginwaarde1, 2);
+    int beginwaarde1 = (int)(Math.random() * settings.rijen * settings.rijen);
+    settings.waarden.set(beginwaarde1, 2);
     	//voeg nog een getal toe op een willekeurige plek, anders dan de vorige plek
-    int beginwaarde2 = (int)(Math.random() * this.rijen * this.kolommen);
+    int beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
     while (beginwaarde1 == beginwaarde2) {
-      beginwaarde2 = (int)(Math.random() * this.rijen * this.kolommen);
+      beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
     }
-    this.waarden.set(beginwaarde2, 2);
+    settings.waarden.set(beginwaarde2, 2);
   }
   
   public void paintComponent(Graphics g)
@@ -52,45 +48,56 @@ public class View
   
   public void teken(Graphics g)
   {
-	  // instellingen hard gecodeerd in de class
-	  g.setColor(this.background);
-	  g.fillRect(this.x, this.y, this.breedte, this.hoogte);
-	  g.setColor(this.foreground);
+	  g.setColor(settings.background);
+	  g.fillRect(settings.x, settings.y, settings.breedte, settings.hoogte);
+	  g.setColor(settings.foreground);
 	  
-	  for (int i = 0; i <= this.rijen; i++) {
-      g.drawLine(this.x, this.y + i * this.hoogte / this.rijen, this.x + this.breedte, this.y + i * this.hoogte / this.rijen);
+	  for (int i = 0; i <= settings.rijen; i++) {
+      g.drawLine(settings.x, settings.y + i * settings.hoogte / settings.rijen, settings.x + settings.breedte, settings.y + i * settings.hoogte / settings.rijen);
     }
-    for (int i = 0; i <= this.kolommen; i++) {
-      g.drawLine(this.x + i * this.breedte / this.kolommen, this.y, this.x + i * this.breedte / this.kolommen, this.y + this.hoogte);
+    for (int i = 0; i <= settings.kolommen; i++) {
+      g.drawLine(settings.x + i * settings.breedte / settings.kolommen, settings.y, settings.x + i * settings.breedte / settings.kolommen, settings.y + settings.hoogte);
     }
   }
   
   public void tekenhokjes(Graphics g)
   {
-    int aantalhokjes = this.rijen * this.kolommen;
-    int startx = this.x;int starty = this.y;
+	//voor de gradients (niet uitgetest of dit echt nodig is)  
+	Graphics2D g2 = (Graphics2D) g;
+	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	RenderingHints.VALUE_ANTIALIAS_ON);
+	//---
+
+    int aantalhokjes = settings.rijen * settings.kolommen;
+    int startx = settings.x;
+    int starty = settings.y;
     Font font1 = new Addfont().createFont();
     g.setFont(font1);
-    this.fm = g.getFontMetrics();
+    settings.fm = g.getFontMetrics();
     for (int i = 0; i < aantalhokjes; i++)
     {
-      g.setColor(Color.YELLOW);
-      g.drawRect(startx, starty, this.breedte / this.kolommen, this.hoogte / this.rijen);
-      if (((Integer)this.waarden.get(i)).intValue() != 0)
+     g2.setPaint(settings.redtowhite);
+     //if (i%2==0){
+    //	 g2.setPaint(settings.bluetogreen);
+     //}
+     g2.drawRect(startx, starty, settings.breedte / settings.kolommen, settings.hoogte / settings.rijen);
+     g2.fillRect(startx, starty, (settings.breedte / settings.kolommen)-2, (settings.hoogte / settings.rijen)-2); 
+      if (((Integer)settings.waarden.get(i)).intValue() != 0)
       {
-        String word = this.waarden.get(i)+"";
+        String word = settings.waarden.get(i)+"";
         
-        int woordlengte = this.fm.stringWidth(word);
-        int regelhoogte = this.fm.getHeight();
-        int startpositiex = startx + (this.breedte / this.kolommen - woordlengte) / 2;
-        int startpositiey = starty + (this.hoogte / this.rijen + regelhoogte) / 2;
-        g.drawString(word, startpositiex, startpositiey);
+        int woordlengte = settings.fm.stringWidth(word);
+        int regelhoogte = settings.fm.getHeight();
+        int startpositiex = startx + (settings.breedte / settings.kolommen - woordlengte) / 2;
+        int startpositiey = starty + (settings.hoogte / settings.rijen + regelhoogte) / 2;
+        g2.setPaint(settings.fontcolor);
+        g2.drawString(word, startpositiex, startpositiey);
       }
-      startx += this.breedte / this.kolommen;
-      if (i % this.kolommen == this.kolommen - 1)
+      startx += settings.breedte / settings.kolommen;
+      if (i % settings.kolommen == settings.kolommen - 1)
       {
-        startx = this.x;
-        starty += this.hoogte / this.rijen;
+        startx = settings.x;
+        starty += settings.hoogte / settings.rijen;
       }
     }
   }
@@ -99,7 +106,7 @@ public class View
 // **** NIEUWE SETUP ******
   public void swipe(int richting){
 		if (checkFull()){
-			System.out.print(waarden+" -> ");
+			System.out.print(settings.waarden+" -> ");
 			System.out.println("Geen zetten meer.");
 		}
 	  	ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
@@ -130,7 +137,7 @@ public class View
 		if (richting > 1){
 			returnLijst = transponeer(returnLijst);
 		}
-		waarden = convertToList(returnLijst);
+		settings.waarden = convertToList(returnLijst);
 		voegNieuwGetalToe();
 		repaint();
 		
@@ -138,23 +145,23 @@ public class View
   
   protected boolean checkFull(){
 	  boolean full = true;
-	  //check horizontaal of er nog naast elkaar liggende waarden zijn
+	  //check horizontaal of er nog naast elkaar liggende settings.waarden zijn
 	  int counter = 0;
 	  int getal1 = 0;
 	  int getal2 = 0;
 	  //check of er nog nullen zijn --> return false;
-	  for (int i =0; i < rijen; i++){
-		  if (waarden.get(i)==0){
+	  for (int i =0; i < settings.waarden.size(); i++){
+		  if (settings.waarden.get(i)==0){
 			  return false;
 		  }
 	  }
 	  
 	  
-	  for (int i =0; i < rijen; i++){
-		  for (int j = 0 ; j < kolommen-1; j++){
-			  getal1= waarden.get(counter);
+	  for (int i =0; i < settings.rijen; i++){
+		  for (int j = 0 ; j < settings.kolommen-1; j++){
+			  getal1= settings.waarden.get(counter);
 			  counter++;
-			  getal2= waarden.get(counter);
+			  getal2= settings.waarden.get(counter);
 			  if (getal1 == getal2){
 				  full= false;
 			  } 
@@ -164,10 +171,10 @@ public class View
 	  }
 	  //check verticaal of er nog naast elkaar liggende waarden zijn
 	  int pos1 = 0;
-	  int pos2= kolommen;
-	  for (int i=0; i < waarden.size()-kolommen;i++){
-		  getal1 = waarden.get(pos1);
-		  getal2 = waarden.get(pos2);
+	  int pos2= settings.kolommen;
+	  for (int i=0; i < settings.waarden.size()-settings.kolommen;i++){
+		  getal1 = settings.waarden.get(pos1);
+		  getal2 = settings.waarden.get(pos2);
 		  if (getal1==getal2){
 			  full=false;
 		  }
@@ -214,10 +221,10 @@ public class View
 protected ArrayList<ArrayList<Integer>> maakRijen(){
 		  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
 		  int counter = 0;
-		  for (int i = 0; i< rijen; i++){
+		  for (int i = 0; i< settings.rijen; i++){
 			  ArrayList<Integer> rij = new ArrayList<Integer>();
-			  for (int j = 0; j < kolommen; j++){
-				  rij.add(waarden.get(counter));
+			  for (int j = 0; j < settings.kolommen; j++){
+				  rij.add(settings.waarden.get(counter));
 				  counter++;
 			  }
 			  rijenLijst.add(rij);
@@ -228,18 +235,18 @@ private ArrayList<ArrayList<Integer>> maakVertRijen(){
 	  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
 		//maak aantal arrays gelijk aan kolommen en vul deze met 1 waarde
 	  	int count = 0;
-	  	for (int j = 0; j< kolommen; j++){
+	  	for (int j = 0; j< settings.kolommen; j++){
 		  ArrayList<Integer> rij = new ArrayList<Integer>();
-		  rij.add(waarden.get(count));
+		  rij.add(settings.waarden.get(count));
 		  rijenLijst.add(rij);
 		  count++;
 		}  
 	  
 	  	//voor de resterende rijen, haal de bijbehorende array op en vul deze aan met 1 waarde
-	  for (int i = 1; i < rijen; i++){
-	  		for (int j = 0; j< kolommen; j++){
+	  for (int i = 1; i < settings.rijen; i++){
+	  		for (int j = 0; j< settings.kolommen; j++){
 	  		ArrayList<Integer>rij = rijenLijst.get(j);
-			  rij.add(waarden.get(count));
+			  rij.add(settings.waarden.get(count));
 			  count++;
 			  rijenLijst.set(j, rij);
 	  		}
@@ -303,15 +310,15 @@ protected ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 private void voegNieuwGetalToe(){
 	//check of waarden vol is
 	boolean vol = true;
-	for (int i = 0; i < waarden.size(); i++){
-		if (waarden.get(i)== 0){
+	for (int i = 0; i < settings.waarden.size(); i++){
+		if (settings.waarden.get(i)== 0){
 			vol = false;
 		}
 	}
 	while (!vol){
-		int newPos = (int)(Math.random()*waarden.size());
-		if (waarden.get(newPos)==0){
-			waarden.set(newPos, 2);
+		int newPos = (int)(Math.random()*settings.waarden.size());
+		if (settings.waarden.get(newPos)==0){
+			settings.waarden.set(newPos, 2);
 			vol = true;
 		}
 	}

@@ -24,18 +24,18 @@ public class checkFullTest {
 		View test = new View();
 		
 		ArrayList<Integer> waarden = new ArrayList<Integer>();
+		waarden.add(4);
 		waarden.add(2);
-		waarden.add(32);
-		waarden.add(16);
-		
-		waarden.add(0);
-		waarden.add(16);
 		waarden.add(4);
 		
+		waarden.add(16);
+		waarden.add(32);
+		waarden.add(2);
+		
+		waarden.add(64);
 		waarden.add(2);
 		waarden.add(0);
-		waarden.add(2);
-		test.waarden=waarden;
+		test.settings.waarden=waarden;
 				
 		assertFalse( test.checkFull());
 	}
