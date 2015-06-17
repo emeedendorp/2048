@@ -13,6 +13,7 @@ public class Tile {
 	Font font;
 	FontMetrics fm;
 	String valueToDisplay;
+	Colorscheme colorscheme;
 
 
 	public Tile(){
@@ -24,15 +25,17 @@ public class Tile {
 		background = Color.gray;
 		fontcolor = Color.yellow;
 		value = 122;	
+		colorscheme = new Colorscheme();
 	}
 	
 	void teken(Graphics g){
 	    g.setFont(font);
 	    fm = g.getFontMetrics();
 	    valueToDisplay = Integer.toString(value);
+	    Color currentColor = colorscheme.getColor(value);
         int woordlengte = fm.stringWidth(valueToDisplay);
         int regelhoogte = fm.getHeight();
-        g.setColor(background);
+        g.setColor(currentColor);
         g.fillRect(x, y, breedte, hoogte);
         g.setColor(fontcolor);
         int startx = x + (breedte - woordlengte) / 2;
@@ -110,5 +113,13 @@ public class Tile {
 
 	void setFm(FontMetrics fm) {
 		this.fm = fm;
+	}
+
+	Colorscheme getColorscheme() {
+		return colorscheme;
+	}
+
+	void setColorscheme(Colorscheme colorscheme) {
+		this.colorscheme = colorscheme;
 	}
 }

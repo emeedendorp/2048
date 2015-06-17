@@ -57,7 +57,7 @@ public class TestFailure {
 	    waarden.add(8);
 	    waarden.add(2);
 	    
-	    tester.settings.waarden = waarden;
+	    tester.waarden = waarden;
 	    
 	    assertTrue(tester.checkFull());
 	    

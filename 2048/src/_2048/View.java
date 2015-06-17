@@ -5,28 +5,31 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class View
-  extends JPanel
+public class View extends JPanel
 {
-
 	private static final long serialVersionUID = 1L;
+	
 	Settings settings;
+	ArrayList<Integer> waarden;
+	int rijen,kolommen;
   
 	  public View() {
 		  settings = new Settings();
+		  settings.applySettingsToView(this);
+		  waarden = new ArrayList<Integer>(rijen*kolommen);
 		  //maak een array aan met waarden 0
-		  for (int i = 0; i <settings.rijen * settings.kolommen; i++) {
-			  settings.waarden.add(0);
+		  for (int i = 0; i <rijen * kolommen; i++) {
+			  waarden.add(0);
 	    }
 		  //voeg een getal toe op een willekeurige plek
-	    int beginwaarde1 = (int)(Math.random() * settings.rijen * settings.rijen);
-	    settings.waarden.set(beginwaarde1, 2);
+	    int beginwaarde1 = (int)(Math.random() * rijen * rijen);
+	    waarden.set(beginwaarde1, 2);
 	    	//voeg nog een getal toe op een willekeurige plek, anders dan de vorige plek
-	    int beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
+	    int beginwaarde2 = (int)(Math.random() * rijen * kolommen);
 	    while (beginwaarde1 == beginwaarde2) {
-	      beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
+	      beginwaarde2 = (int)(Math.random() * rijen * kolommen);
 	    }
-	    settings.waarden.set(beginwaarde2, 2);
+	    waarden.set(beginwaarde2, 2);
 	  }
   
   public void paintComponent(Graphics g)
@@ -40,14 +43,14 @@ public class View
   public void teken(Graphics g)
   { 
 	Tile tile = new Tile();
-	for (int i=0; i < settings.waarden.size(); i++){
+	for (int i=0; i < waarden.size(); i++){
 		//check voor nieuwe regel
-		if ((i%settings.kolommen==0)&&(i!=0)){
-			int terug = (settings.kolommen) * tile.getBreedte();
+		if ((i%kolommen==0)&&(i!=0)){
+			int terug = (kolommen) * tile.getBreedte();
 			tile.setX(tile.getX()-terug);
 			tile.setY(tile.getY()+tile.getHoogte());
 		}
-		tile.setValue(settings.waarden.get(i));
+		tile.setValue(waarden.get(i));
 		tile.teken(g);
 		int x = tile.getX()+tile.getBreedte();
 		tile.setX(x);
@@ -59,7 +62,7 @@ public class View
 	Graphics2D g2 = (Graphics2D) g;
 	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 	RenderingHints.VALUE_ANTIALIAS_ON);
-    int aantalhokjes = settings.rijen * settings.kolommen;
+    int aantalhokjes = rijen * kolommen;
     int startx = settings.x;
     int starty = settings.y;
     Font font1 = new Addfont().createFont();
@@ -71,24 +74,24 @@ public class View
      
      
     
-     g2.drawRect(startx, starty, settings.breedte / settings.kolommen, settings.hoogte / settings.rijen);
-     g2.fillRect(startx, starty, (settings.breedte / settings.kolommen)-2, (settings.hoogte / settings.rijen)-2); 
-      if (((Integer)settings.waarden.get(i)).intValue() != 0)
+     g2.drawRect(startx, starty, settings.breedte / kolommen, settings.hoogte / rijen);
+     g2.fillRect(startx, starty, (settings.breedte / kolommen)-2, (settings.hoogte / rijen)-2); 
+      if (((Integer)waarden.get(i)).intValue() != 0)
       {
-        String word = settings.waarden.get(i)+"";
+        String word = waarden.get(i)+"";
         
         int woordlengte = settings.fm.stringWidth(word);
         int regelhoogte = settings.fm.getHeight();
-        int startpositiex = startx + (settings.breedte / settings.kolommen - woordlengte) / 2;
-        int startpositiey = starty + (settings.hoogte / settings.rijen + regelhoogte) / 2;
+        int startpositiex = startx + (settings.breedte / kolommen - woordlengte) / 2;
+        int startpositiey = starty + (settings.hoogte / rijen + regelhoogte) / 2;
         g2.setPaint(settings.fontcolor);
         g2.drawString(word, startpositiex, startpositiey);
       }
-      startx += settings.breedte / settings.kolommen;
-      if (i % settings.kolommen == settings.kolommen - 1)
+      startx += settings.breedte / kolommen;
+      if (i % kolommen == kolommen - 1)
       {
         startx = settings.x;
-        starty += settings.hoogte / settings.rijen;
+        starty += settings.hoogte / rijen;
       }
       }
       **/
@@ -99,7 +102,7 @@ public class View
 // **** NIEUWE SETUP ******
   public void swipe(int richting){
 		if (checkFull()){
-			System.out.print(settings.waarden+" -> ");
+			System.out.print(waarden+" -> ");
 			System.out.println("Geen zetten meer.");
 		}
 	  	ArrayList<ArrayList<Integer>> rijenLijst = maakRijen();
@@ -130,7 +133,7 @@ public class View
 		if (richting > 1){
 			returnLijst = transponeer(returnLijst);
 		}
-		settings.waarden = convertToList(returnLijst);
+		waarden = convertToList(returnLijst);
 		voegNieuwGetalToe();
 		repaint();
 		
@@ -138,23 +141,23 @@ public class View
   
   protected boolean checkFull(){
 	  boolean full = true;
-	  //check horizontaal of er nog naast elkaar liggende settings.waarden zijn
+	  //check horizontaal of er nog naast elkaar liggende waarden zijn
 	  int counter = 0;
 	  int getal1 = 0;
 	  int getal2 = 0;
 	  //check of er nog nullen zijn --> return false;
-	  for (int i =0; i < settings.waarden.size(); i++){
-		  if (settings.waarden.get(i)==0){
+	  for (int i =0; i < waarden.size(); i++){
+		  if (waarden.get(i)==0){
 			  return false;
 		  }
 	  }
 	  
 	  
-	  for (int i =0; i < settings.rijen; i++){
-		  for (int j = 0 ; j < settings.kolommen-1; j++){
-			  getal1= settings.waarden.get(counter);
+	  for (int i =0; i < rijen; i++){
+		  for (int j = 0 ; j < kolommen-1; j++){
+			  getal1= waarden.get(counter);
 			  counter++;
-			  getal2= settings.waarden.get(counter);
+			  getal2= waarden.get(counter);
 			  if (getal1 == getal2){
 				  full= false;
 			  } 
@@ -165,10 +168,10 @@ public class View
 	  
 	  //check verticaal of er nog naast elkaar liggende waarden zijn
 	  int pos1 = 0;
-	  int pos2= settings.kolommen;
-	  for (int i=0; i < settings.waarden.size()-settings.kolommen;i++){
-		  getal1 = settings.waarden.get(pos1);
-		  getal2 = settings.waarden.get(pos2);
+	  int pos2= kolommen;
+	  for (int i=0; i < waarden.size()-kolommen;i++){
+		  getal1 = waarden.get(pos1);
+		  getal2 = waarden.get(pos2);
 		  if (getal1==getal2){
 			  full=false;
 		  }
@@ -215,10 +218,10 @@ public class View
 protected ArrayList<ArrayList<Integer>> maakRijen(){
 		  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
 		  int counter = 0;
-		  for (int i = 0; i< settings.rijen; i++){
+		  for (int i = 0; i< rijen; i++){
 			  ArrayList<Integer> rij = new ArrayList<Integer>();
-			  for (int j = 0; j < settings.kolommen; j++){
-				  rij.add(settings.waarden.get(counter));
+			  for (int j = 0; j < kolommen; j++){
+				  rij.add(waarden.get(counter));
 				  counter++;
 			  }
 			  rijenLijst.add(rij);
@@ -229,18 +232,18 @@ private ArrayList<ArrayList<Integer>> maakVertRijen(){
 	  ArrayList<ArrayList<Integer>> rijenLijst = new ArrayList<ArrayList<Integer>>();
 		//maak aantal arrays gelijk aan kolommen en vul deze met 1 waarde
 	  	int count = 0;
-	  	for (int j = 0; j< settings.kolommen; j++){
+	  	for (int j = 0; j< kolommen; j++){
 		  ArrayList<Integer> rij = new ArrayList<Integer>();
-		  rij.add(settings.waarden.get(count));
+		  rij.add(waarden.get(count));
 		  rijenLijst.add(rij);
 		  count++;
 		}  
 	  
 	  	//voor de resterende rijen, haal de bijbehorende array op en vul deze aan met 1 waarde
-	  for (int i = 1; i < settings.rijen; i++){
-	  		for (int j = 0; j< settings.kolommen; j++){
+	  for (int i = 1; i < rijen; i++){
+	  		for (int j = 0; j< kolommen; j++){
 	  		ArrayList<Integer>rij = rijenLijst.get(j);
-			  rij.add(settings.waarden.get(count));
+			  rij.add(waarden.get(count));
 			  count++;
 			  rijenLijst.set(j, rij);
 	  		}
@@ -304,15 +307,15 @@ protected ArrayList<Integer> sorteerRechts( ArrayList<Integer> rij){
 private void voegNieuwGetalToe(){
 	//check of waarden vol is
 	boolean vol = true;
-	for (int i = 0; i < settings.waarden.size(); i++){
-		if (settings.waarden.get(i)== 0){
+	for (int i = 0; i < waarden.size(); i++){
+		if (waarden.get(i)== 0){
 			vol = false;
 		}
 	}
 	while (!vol){
-		int newPos = (int)(Math.random()*settings.waarden.size());
-		if (settings.waarden.get(newPos)==0){
-			settings.waarden.set(newPos, 2);
+		int newPos = (int)(Math.random()*waarden.size());
+		if (waarden.get(newPos)==0){
+			waarden.set(newPos, 2);
 			vol = true;
 		}
 	}
@@ -394,5 +397,21 @@ private ArrayList<Integer> telOpRechts(ArrayList<Integer> rij){
 		}
 		newRij= bufferRij;
 	return newRij;
+}
+
+int getRijen() {
+	return rijen;
+}
+
+void setRijen(int rijen) {
+	this.rijen = rijen;
+}
+
+int getKolommen() {
+	return kolommen;
+}
+
+void setKolommen(int kolommen) {
+	this.kolommen = kolommen;
 }
 }

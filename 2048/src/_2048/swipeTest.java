@@ -45,7 +45,7 @@ public class swipeTest {
 		    waarden.add(0);
 		    
 		    System.out.println(waarden);
-		    tester.settings.waarden = waarden;
+		    tester.waarden = waarden;
 		    
 		    
 		    //verwachte uitvoer
@@ -70,9 +70,9 @@ public class swipeTest {
 		    //uitvoeren test
 		   tester.swipe(3);
 		    
-		    System.out.println("Testerwaarden: "+tester.settings.waarden);
+		    System.out.println("Testerwaarden: "+tester.waarden);
 		    System.out.println("eindwaarden: "+eindwaarden);
-		    assertEquals("result: ", tester.settings.waarden, eindwaarden );
+		    assertEquals("result: ", tester.waarden, eindwaarden );
 	}
 
 }
