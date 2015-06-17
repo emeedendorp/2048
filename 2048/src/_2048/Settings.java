@@ -3,7 +3,6 @@ package _2048;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
-import java.util.ArrayList;
 
 public class Settings {
 	  int x,y,breedte,hoogte,rijen, kolommen,newx, newy;
