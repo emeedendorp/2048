@@ -1,12 +1,6 @@
 package _2048;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -15,59 +9,56 @@ public class View
   extends JPanel
 {
 
-  /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	Settings settings;
   
-  public View() {
-	  settings = new Settings();
-	  //maak een array aan met waarden 0
-	  for (int i = 0; i <settings.rijen * settings.kolommen; i++) {
-		  settings.waarden.add(0);
-    }
-	  //voeg een getal toe op een willekeurige plek
-    int beginwaarde1 = (int)(Math.random() * settings.rijen * settings.rijen);
-    settings.waarden.set(beginwaarde1, 2);
-    	//voeg nog een getal toe op een willekeurige plek, anders dan de vorige plek
-    int beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
-    while (beginwaarde1 == beginwaarde2) {
-      beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
-    }
-    settings.waarden.set(beginwaarde2, 2);
-  }
+	  public View() {
+		  settings = new Settings();
+		  //maak een array aan met waarden 0
+		  for (int i = 0; i <settings.rijen * settings.kolommen; i++) {
+			  settings.waarden.add(0);
+	    }
+		  //voeg een getal toe op een willekeurige plek
+	    int beginwaarde1 = (int)(Math.random() * settings.rijen * settings.rijen);
+	    settings.waarden.set(beginwaarde1, 2);
+	    	//voeg nog een getal toe op een willekeurige plek, anders dan de vorige plek
+	    int beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
+	    while (beginwaarde1 == beginwaarde2) {
+	      beginwaarde2 = (int)(Math.random() * settings.rijen * settings.kolommen);
+	    }
+	    settings.waarden.set(beginwaarde2, 2);
+	  }
   
   public void paintComponent(Graphics g)
   {
-    super.paintComponent(g);
-    
+    super.paintComponent(g);  
     teken(g);
-    tekenhokjes(g);
   }
+  
+
   
   public void teken(Graphics g)
-  {
-	  g.setColor(settings.background);
-	  g.fillRect(settings.x, settings.y, settings.breedte, settings.hoogte);
-	  g.setColor(settings.foreground);
-	  
-	  for (int i = 0; i <= settings.rijen; i++) {
-      g.drawLine(settings.x, settings.y + i * settings.hoogte / settings.rijen, settings.x + settings.breedte, settings.y + i * settings.hoogte / settings.rijen);
-    }
-    for (int i = 0; i <= settings.kolommen; i++) {
-      g.drawLine(settings.x + i * settings.breedte / settings.kolommen, settings.y, settings.x + i * settings.breedte / settings.kolommen, settings.y + settings.hoogte);
-    }
-  }
-  
-  public void tekenhokjes(Graphics g)
-  {
+  { 
+	Tile tile = new Tile();
+	for (int i=0; i < settings.waarden.size(); i++){
+		//check voor nieuwe regel
+		if ((i%settings.kolommen==0)&&(i!=0)){
+			int terug = (settings.kolommen) * tile.getBreedte();
+			tile.setX(tile.getX()-terug);
+			tile.setY(tile.getY()+tile.getHoogte());
+		}
+		tile.setValue(settings.waarden.get(i));
+		tile.teken(g);
+		int x = tile.getX()+tile.getBreedte();
+		tile.setX(x);
+
+		
+	}
+	/** oude setup
 	//voor de gradients (niet uitgetest of dit echt nodig is)  
 	Graphics2D g2 = (Graphics2D) g;
 	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 	RenderingHints.VALUE_ANTIALIAS_ON);
-	//---
-
     int aantalhokjes = settings.rijen * settings.kolommen;
     int startx = settings.x;
     int starty = settings.y;
@@ -76,10 +67,10 @@ public class View
     settings.fm = g.getFontMetrics();
     for (int i = 0; i < aantalhokjes; i++)
     {
-     g2.setPaint(settings.redtowhite);
-     //if (i%2==0){
-    //	 g2.setPaint(settings.bluetogreen);
-     //}
+     g2.setColor(Color.gray);
+     
+     
+    
      g2.drawRect(startx, starty, settings.breedte / settings.kolommen, settings.hoogte / settings.rijen);
      g2.fillRect(startx, starty, (settings.breedte / settings.kolommen)-2, (settings.hoogte / settings.rijen)-2); 
       if (((Integer)settings.waarden.get(i)).intValue() != 0)
@@ -99,7 +90,9 @@ public class View
         startx = settings.x;
         starty += settings.hoogte / settings.rijen;
       }
-    }
+      }
+      **/
+    
   }
   
 
@@ -169,6 +162,7 @@ public class View
 		  }
 		counter++;
 	  }
+	  
 	  //check verticaal of er nog naast elkaar liggende waarden zijn
 	  int pos1 = 0;
 	  int pos2= settings.kolommen;
