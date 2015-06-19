@@ -5,22 +5,27 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 
 public class Settings {
-	  int x,y,breedte,hoogte,rijen, kolommen,newx, newy;
+	  int x,y,breedte,hoogte,rijen, kolommen,newx, newy, iterations;
 	  Color background,foreground,fontcolor;
 	  FontMetrics fm;
 	  GradientPaint redtowhite, bluetogreen,test1,test2;
 	  Colorscheme colorscheme;
+	  float color1,color2, color3;
 
 	public Settings(){
 		  
 		//settings voor de tile
-		colorscheme = new Colorscheme();
-		x = 60;
-		y = 60;
-		breedte = 400;
-		hoogte = 400;
+		color1 = 0.9f;
+		color2 = 0.6f;
+		color3 = 0.3f;
+		iterations = 9;
+		colorscheme = new Colorscheme(color1, color2, color3, iterations);
+		x = 10;
+		y = 10;
+		breedte = 70;
+		hoogte = 70;
 		foreground = Color.BLACK;
-		fontcolor = Color.yellow;
+		fontcolor = Color.white;
 		  
 		// settings voor view  
 		rijen = 4;

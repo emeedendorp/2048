@@ -31,7 +31,12 @@ public class Tile {
 	void teken(Graphics g){
 	    g.setFont(font);
 	    fm = g.getFontMetrics();
-	    valueToDisplay = Integer.toString(value);
+	    if (value!=0){
+	    	valueToDisplay = Integer.toString(value);
+	    	}
+	    else{
+	    	valueToDisplay = "";
+	    }
 	    Color currentColor = colorscheme.getColor(value);
         int woordlengte = fm.stringWidth(valueToDisplay);
         int regelhoogte = fm.getHeight();

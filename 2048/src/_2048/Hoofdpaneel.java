@@ -12,9 +12,12 @@ public class Hoofdpaneel
   public Hoofdpaneel()
   {
     setLayout(new BorderLayout());
-    View view = new View();
-    add(view, "Center");
-    view.setFocusable(true);
+    View view = new View();   
+    Infoboard infoboard = new Infoboard(view);
+    add(infoboard, BorderLayout.NORTH);
+    add(view, BorderLayout.CENTER);
+    view.setFocusable(true);   
     view.addKeyListener(new myKl(view));
+    view.requestFocus();
   }
 }

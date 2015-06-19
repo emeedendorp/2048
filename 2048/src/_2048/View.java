@@ -11,7 +11,7 @@ public class View extends JPanel
 	
 	Settings settings;
 	ArrayList<Integer> waarden;
-	int rijen,kolommen;
+	int rijen,kolommen, score;
   
 	  public View() {
 		  settings = new Settings();
@@ -43,6 +43,7 @@ public class View extends JPanel
   public void teken(Graphics g)
   { 
 	Tile tile = new Tile();
+	settings.applySettingstoTile(tile);
 	for (int i=0; i < waarden.size(); i++){
 		//check voor nieuwe regel
 		if ((i%kolommen==0)&&(i!=0)){
@@ -54,9 +55,17 @@ public class View extends JPanel
 		tile.teken(g);
 		int x = tile.getX()+tile.getBreedte();
 		tile.setX(x);
-
-		
 	}
+	score = getScore();
+  }
+
+  private int getScore(){
+		int score=0;
+		for (int i = 0; i < waarden.size();i++){
+			score+=waarden.get(i);
+		}
+		return score;
+  }
 	/** oude setup
 	//voor de gradients (niet uitgetest of dit echt nodig is)  
 	Graphics2D g2 = (Graphics2D) g;
@@ -96,7 +105,7 @@ public class View extends JPanel
       }
       **/
     
-  }
+  
   
 
 // **** NIEUWE SETUP ******
