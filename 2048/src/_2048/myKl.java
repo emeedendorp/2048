@@ -15,6 +15,7 @@ public class myKl
   
   public void keyPressed(KeyEvent e)
   {
+	  System.out.println("geklikt");
 	  int code = e.getKeyCode();
 	  if (code ==37){//pijl naar links
 	  this.view.swipe(0);

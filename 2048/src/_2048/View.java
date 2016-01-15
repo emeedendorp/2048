@@ -3,7 +3,9 @@ package _2048;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 public class View extends JPanel
 {
@@ -14,6 +16,21 @@ public class View extends JPanel
 	int rijen,kolommen, score;
   
 	  public View() {
+		  //JButton testButton = new JButton( "Test2" );
+		  //testButton.addActionListener(new MyKb());
+		  
+	      // EnterAction enterAction = new EnterAction(testButton);
+
+	        // the following two lines do the magic of key binding. the first line
+	        // gets the dataField's InputMap and pairs the "ENTER" key to the
+	        // action "doEnterAction" . . .
+	       // testButton.getInputMap().put( KeyStroke.getKeyStroke( "ENTER" ),
+	       //        "doEnterAction" );
+
+	        // . . . then this line pairs the AbstractAction enterAction to the
+	        // action "doEnterAction"
+	      // testButton.getActionMap().put( "doEnterAction", enterAction );
+	      // add (testButton);
 		  settings = new Settings();
 		  settings.applySettingsToView(this);
 		  waarden = new ArrayList<Integer>(rijen*kolommen);
