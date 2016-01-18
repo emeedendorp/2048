@@ -5,7 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 
 public class Settings {
-	  int x,y,breedte,hoogte,rijen, kolommen,newx, newy, iterations;
+	  int x,y,width,height,rows, columns,newx, newy, iterations;
 	  Color background,foreground,fontcolor;
 	  FontMetrics fm;
 	  GradientPaint redtowhite, bluetogreen,test1,test2;
@@ -14,7 +14,7 @@ public class Settings {
 
 	public Settings(){
 		  
-		//settings voor de tile
+		//settings for tile
 		color1 = 0.9f;
 		color2 = 0.6f;
 		color3 = 0.3f;
@@ -22,18 +22,18 @@ public class Settings {
 		colorscheme = new Colorscheme(color1, color2, color3, iterations);
 		x = 10;
 		y = 10;
-		breedte = 70;
-		hoogte = 70;
+		width = 70;
+		height = 70;
 		foreground = Color.BLACK;
 		fontcolor = Color.white;
 		  
-		// settings voor view  
-		rijen = 4;
-		kolommen = 4;
+		// settings for view  
+		rows = 4;
+		columns = 4;
 		
 		  
-		// --- niet gebruikte settings
-		//aanmaken nieuwe gradient
+		// --- settings not used
+		// add new gradient
 		// fill RoundRectangle2D.Double
 		redtowhite = new GradientPaint(0, 40, Color.gray, 0,100, Color.white, true);
 		test1 = new GradientPaint(0, 0, Color.gray, 0,50, Color.white, true);
@@ -43,14 +43,14 @@ public class Settings {
 	void applySettingstoTile(Tile tile){
 		tile.setX(x);
 		tile.setY(y);
-		tile.setBreedte(breedte);
-		tile.setHoogte(hoogte);
+		tile.setWidth(width);
+		tile.setHeight(height);
 		tile.setFontcolor(fontcolor);
 		tile.setBackground(background);	
 		tile.setColorscheme(colorscheme);
 	}
 	void applySettingsToView(View view){
-		view.setRijen(rijen);
-		view.setKolommen(kolommen);
+		view.setRows(rows);
+		view.setColumns(columns);
 	}
 }

@@ -15,18 +15,17 @@ public class myKl
   
   public void keyPressed(KeyEvent e)
   {
-	  System.out.println("geklikt");
 	  int code = e.getKeyCode();
-	  if (code ==37){//pijl naar links
+	  if (code ==37){//left arrow
 	  this.view.swipe(0);
 	  }
-	  if (code ==39){//pijl naar rechts
+	  if (code ==39){//right arrow
 	  this.view.swipe(1);
 	  }
-	  if (code ==38){//pijl naar boven
+	  if (code ==38){//up arrow
 		  this.view.swipe(2);
 	  }
-	  if (code ==40){//pijl naar onder
+	  if (code ==40){//down arrow
 		  this.view.swipe(3);
 	  }
   }

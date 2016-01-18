@@ -8,7 +8,7 @@ import java.awt.Graphics;
 
 
 public class Tile {
-	int x,y, hoogte, breedte, value;
+	int x,y, height, width, value;
 	Color background, fontcolor;
 	Font font;
 	FontMetrics fm;
@@ -20,15 +20,15 @@ public class Tile {
 		font = new Addfont().createFont();
 		x = 10;
 		y = 10;
-		hoogte = 50;
-		breedte = 50;
+		height = 50;
+		width = 50;
 		background = Color.gray;
 		fontcolor = Color.yellow;
 		value = 122;	
 		colorscheme = new Colorscheme();
 	}
 	
-	void teken(Graphics g){
+	void draw(Graphics g){
 	    g.setFont(font);
 	    fm = g.getFontMetrics();
 	    if (value!=0){
@@ -38,13 +38,13 @@ public class Tile {
 	    	valueToDisplay = "";
 	    }
 	    Color currentColor = colorscheme.getColor(value);
-        int woordlengte = fm.stringWidth(valueToDisplay);
-        int regelhoogte = fm.getHeight();
+        int wordLength = fm.stringWidth(valueToDisplay);
+        int stringHeight = fm.getHeight();
         g.setColor(currentColor);
-        g.fillRect(x, y, breedte, hoogte);
+        g.fillRect(x, y, width, height);
         g.setColor(fontcolor);
-        int startx = x + (breedte - woordlengte) / 2;
-        int starty = y + (hoogte + regelhoogte) / 2;
+        int startx = x + (width - wordLength) / 2;
+        int starty = y + (height + stringHeight) / 2;
         g.drawString(valueToDisplay, startx, starty);
 	}
 
@@ -64,20 +64,20 @@ public class Tile {
 		this.y = y;
 	}
 
-	int getHoogte() {
-		return hoogte;
+	int getHeight() {
+		return height;
 	}
 
-	void setHoogte(int hoogte) {
-		this.hoogte = hoogte;
+	void setHeight(int hoogte) {
+		this.height = hoogte;
 	}
 
-	int getBreedte() {
-		return breedte;
+	int getWidth() {
+		return width;
 	}
 
-	void setBreedte(int breedte) {
-		this.breedte = breedte;
+	void setWidth(int breedte) {
+		this.width = breedte;
 	}
 
 	Color getBackground() {

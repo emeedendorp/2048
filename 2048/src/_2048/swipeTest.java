@@ -23,29 +23,29 @@ public class swipeTest {
 
 		    View tester = new View();
 		    
-		    //testen swipe(3)
+		    //test swipe(3)
 		    
-		    // invoer genereren
-		    ArrayList<Integer> waarden = new ArrayList<Integer>();
-		    waarden.add(4);
-		    waarden.add(32);
-		    waarden.add(16);
-		    waarden.add(2);
-		    waarden.add(2);
-		    waarden.add(16);
-		    waarden.add(2);
-		    waarden.add(16);
-		    waarden.add(32);
-		    waarden.add(4);
-		    waarden.add(8);
-		    waarden.add(2);
-		    waarden.add(4);
-		    waarden.add(4);
-		    waarden.add(2);
-		    waarden.add(0);
+		    // generate input
+		    ArrayList<Integer> values = new ArrayList<Integer>();
+		    values.add(4);
+		    values.add(32);
+		    values.add(16);
+		    values.add(2);
+		    values.add(2);
+		    values.add(16);
+		    values.add(2);
+		    values.add(16);
+		    values.add(32);
+		    values.add(4);
+		    values.add(8);
+		    values.add(2);
+		    values.add(4);
+		    values.add(4);
+		    values.add(2);
+		    values.add(0);
 		    
-		    System.out.println(waarden);
-		    tester.waarden = waarden;
+		    System.out.println(values);
+		    tester.values = values;
 		    
 		    
 		    //verwachte uitvoer
@@ -70,9 +70,9 @@ public class swipeTest {
 		    //uitvoeren test
 		   tester.swipe(3);
 		    
-		    System.out.println("Testerwaarden: "+tester.waarden);
+		    System.out.println("Testerwaarden: "+tester.values);
 		    System.out.println("eindwaarden: "+eindwaarden);
-		    assertEquals("result: ", tester.waarden, eindwaarden );
+		    assertEquals("result: ", tester.values, eindwaarden );
 	}
 
 }

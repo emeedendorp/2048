@@ -39,7 +39,7 @@ public class Colorscheme {
 		int breakpoint = iterations;
 		if (hue2 == 0){
 			hue2 = hue;
-			hue3 = 0; //3e kleur wordt genegeerd as 2e kleur niet opgegeven is
+			hue3 = 0; //third value ignored when no second value present
 		}
 		else{
 			saturationIncrease = saturationIncrease /2;

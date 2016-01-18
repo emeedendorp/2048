@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 public class EnterAction extends AbstractAction{
 
+	private static final long serialVersionUID = 1L;
 	JButton testButton;
 	
 	public EnterAction(JButton testButton){

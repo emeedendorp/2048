@@ -35,7 +35,7 @@ public class checkFullTest {
 		waarden.add(64);
 		waarden.add(2);
 		waarden.add(0);
-		test.waarden=waarden;
+		test.values=waarden;
 				
 		assertFalse( test.checkFull());
 	}

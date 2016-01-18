@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MaakRijenTest {
+public class MakeRowTest {
 
 	@Test
-	public void testMaakRijen() {
+	public void testMakeRows() {
 		fail("Not yet implemented");
 	}
 

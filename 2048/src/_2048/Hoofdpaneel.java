@@ -13,12 +13,10 @@ public class Hoofdpaneel
   {
     setLayout(new BorderLayout());
     View view = new View();  
-    //View view2 = new View();
-    //Infoboard infoboard = new Infoboard(view);
+    Infoboard infoboard = new Infoboard(view);
     //add(infoboard, BorderLayout.NORTH);
     add(view, "Center");
-    //add(view, BorderLayout.CENTER);
-    //add(view2,BorderLayout.SOUTH);
+    add(infoboard, "East");
     view.setFocusable(true);       
     view.addKeyListener(new myKl(view));
     //view.addActionListener(new MyKb());
