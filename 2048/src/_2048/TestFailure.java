@@ -11,7 +11,7 @@ public class TestFailure {
 	@Test
 	public void test() {
 	    // sortRight is tested
-	    View tester = new View();
+	    Control tester = new Control();
 	    
 	    //testArrays
 	    ArrayList<Integer> array1 = new ArrayList<Integer>();
@@ -29,10 +29,10 @@ public class TestFailure {
 
 	    System.out.println("array1: " + array1);
 	    System.out.println("array2: " + array2);
-	    System.out.println("sortRight(array1): " + tester.sortRight(array1));
+	    System.out.println("sortRight(array1): " + Sort.right(array1));
 	    
 	    // assert statements
-	    assertEquals("2 2 4 0 --> 0 0 4 4", array2, tester.sortRight(array1));
+	    assertEquals("2 2 4 0 --> 0 0 4 4", array2, Sort.right(array1));
 	    
 	    // checkFull is tested
 	    ArrayList<Integer> values = new ArrayList<Integer>();

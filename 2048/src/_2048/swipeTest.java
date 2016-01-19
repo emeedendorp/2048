@@ -21,7 +21,7 @@ public class swipeTest {
 	@Test
 	public void testSwipe() {
 
-		    View tester = new View();
+		    Control tester = new Control();
 		    
 		    //test swipe(3)
 		    

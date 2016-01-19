@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 public class myKl
   implements KeyListener
 {
-  View view;
+  Control view;
   
-  public myKl(View view)
+  public myKl(Control view)
   {
     this.view = view;
   }

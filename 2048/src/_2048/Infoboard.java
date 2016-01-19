@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 public class Infoboard extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JButton test = new JButton("test");
-	View view;
-	public Infoboard(View view){
+	Control view;
+	public Infoboard(Control view){
 		add(test);
 		this.view = view;
 	}

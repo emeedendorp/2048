@@ -12,7 +12,7 @@ public class Hoofdpaneel
   public Hoofdpaneel()
   {
     setLayout(new BorderLayout());
-    View view = new View();  
+    Control view = new Control();  
     Infoboard infoboard = new Infoboard(view);
     //add(infoboard, BorderLayout.NORTH);
     add(view, "Center");

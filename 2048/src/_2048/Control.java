@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
-public class View extends JPanel
+public class Control extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -12,7 +12,7 @@ public class View extends JPanel
 	ArrayList<Integer> values;
 	int rows,columns, score;
   
-	  public View() {
+	  public Control() {
 
 		  settings = new Settings();
 		  settings.applySettingsToView(this);
@@ -30,6 +30,8 @@ public class View extends JPanel
 	      startvalue2 = (int)(Math.random() * rows * columns);
 	    }
 	    values.set(startvalue2, 2);
+	    ArrayList<Integer> testValues = values;
+	    System.out.println("Testvalues: "+Sort.right(testValues));
 	  }
   
   public void paintComponent(Graphics g)
@@ -65,44 +67,6 @@ public class View extends JPanel
 		}
 		return score;
   }
-	/** oude setup
-	//voor de gradients (niet uitgetest of dit echt nodig is)  
-	Graphics2D g2 = (Graphics2D) g;
-	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	RenderingHints.VALUE_ANTIALIAS_ON);
-    int aantalhokjes = rijen * kolommen;
-    int startx = settings.x;
-    int starty = settings.y;
-    Font font1 = new Addfont().createFont();
-    g.setFont(font1);
-    settings.fm = g.getFontMetrics();
-    for (int i = 0; i < aantalhokjes; i++)
-    {
-     g2.setColor(Color.gray);
-     
-     
-    
-     g2.drawRect(startx, starty, settings.breedte / kolommen, settings.hoogte / rijen);
-     g2.fillRect(startx, starty, (settings.breedte / kolommen)-2, (settings.hoogte / rijen)-2); 
-      if (((Integer)waarden.get(i)).intValue() != 0)
-      {
-        String word = waarden.get(i)+"";
-        
-        int woordlengte = settings.fm.stringWidth(word);
-        int regelhoogte = settings.fm.getHeight();
-        int startpositiex = startx + (settings.breedte / kolommen - woordlengte) / 2;
-        int startpositiey = starty + (settings.hoogte / rijen + regelhoogte) / 2;
-        g2.setPaint(settings.fontcolor);
-        g2.drawString(word, startpositiex, startpositiey);
-      }
-      startx += settings.breedte / kolommen;
-      if (i % kolommen == kolommen - 1)
-      {
-        startx = settings.x;
-        starty += settings.hoogte / rijen;
-      }
-      }
-      **/
     
 
 // **** NEW SETUP ******
@@ -123,16 +87,16 @@ public class View extends JPanel
 		for (int i = 0; i < rowList.size();i++){
 			row = rowList.get(i);
 			if (direction == 0){
-			row = sortLeft(row);
+			row = Sort.left(row);
 			}
 			else if (direction == 1){
-			row = sortRight(row);	
+			row = Sort.right(row);	
 			}
 			else if (direction == 2){	
-			row = sortLeft(row);
+			row = Sort.left(row);
 			}
 			else if (direction == 3){
-			row = sortRight(row);
+			row = Sort.right(row);
 			}
 			returnList.add(row);
 		}
@@ -140,7 +104,7 @@ public class View extends JPanel
 			returnList = transpose(returnList);
 		}
 		values = convertToList(returnList);
-		//check if enything changes - 
+		//check if anything changes - 
 		if (checkForNewNumber(direction)){
 		addNewValue();
 		}
@@ -310,59 +274,6 @@ private ArrayList<ArrayList<Integer>> makeVertRows(){
 	  return rowList;
 }
 
-private ArrayList<Integer> sortLeft( ArrayList<Integer> row){
-	ArrayList<Integer> newRow = new ArrayList<Integer>();
-	// get all nonzero values
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)!=0){
-			newRow.add(row.get(i));
-		}
-	}
-	//get the zeros
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)==0){
-			newRow.add(0);
-		}
-	}
-	// sum equal values
-	// fill empty spot with zero
-	row = sumValue(newRow);
-	//reset array
-	newRow = new ArrayList<Integer>();
-	// get all values
-	// get all nonzero numbers again
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)!=0){
-			newRow.add(row.get(i));
-		}
-	}
-	//get all zeros
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)==0){
-			newRow.add(0);
-		}
-	}
-	return newRow;
-}
-
-protected ArrayList<Integer> sortRight( ArrayList<Integer> row){
-	ArrayList<Integer> newRow = new ArrayList<Integer>();
-	row = sumRight(row);
-	// get zeros
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)==0){
-			newRow.add(0);
-		}
-	}
-	// get all values
-	for (int i = 0; i < row.size(); i ++){
-		if (row.get(i)!=0){
-			newRow.add(row.get(i));
-		}
-	}
-	return newRow;
-}
-
 private void addNewValue(){
 	//check if array values is full
 	boolean full = true;
@@ -410,53 +321,7 @@ private ArrayList<Integer> sumValue(ArrayList<Integer> row){
 		newRow.add(value1);
 	return newRow;
 }
-private ArrayList<Integer> sumRight(ArrayList<Integer> row){
-	ArrayList<Integer> newRow = new ArrayList<Integer>();
-		int size = row.size()-1;
-		int value1 = row.get(size);
-		int value2 = row.get(size-1);
-		// --- saves values in reverse order
-		//value1
-		if (value1 == value2){
-			newRow.add(value1*2);
-			value1 = 0;	
-		}
-		else{
-			newRow.add(value1);			
-			value1 = value2;
-		}
-		//value2 until before last
-		for (int i = size-2; i >= 0; i--){
-			value2 = row.get(i);
-			if (value1 == value2){
-				newRow.add(value1*2);
-				value1= 0;
-			}
-			else {
-				newRow.add(value1);
-				value1 = value2;
-			}
-		}
-		//last value
-		newRow.add(value1);
-		// we have the row in reverse order from what we want, not separated zeros yet
-		// separate zeros and add it last (still reversed row)
-		ArrayList<Integer> bufferRow = new ArrayList<Integer>();
-		//zeros
-		for (int j=0;j<newRow.size();j++){
-			if (newRow.get(j)==0){
-				bufferRow.add(0);
-			}
-		}
-		//nonzeros
-		for (int j=newRow.size()-1;j>=0;j--){
-			if (newRow.get(j)!=0){
-				bufferRow.add(newRow.get(j));
-			}
-		}
-		newRow= bufferRow;
-	return newRow;
-}
+
 
 int getRows() {
 	return rows;

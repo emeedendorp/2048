@@ -21,7 +21,7 @@ public class checkFullTest {
 	@Test
 	public void testCheckFull() {
 		
-		View test = new View();
+		Control test = new Control();
 		
 		ArrayList<Integer> waarden = new ArrayList<Integer>();
 		waarden.add(4);

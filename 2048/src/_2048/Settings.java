@@ -49,7 +49,7 @@ public class Settings {
 		tile.setBackground(background);	
 		tile.setColorscheme(colorscheme);
 	}
-	void applySettingsToView(View view){
+	void applySettingsToView(Control view){
 		view.setRows(rows);
 		view.setColumns(columns);
 	}
