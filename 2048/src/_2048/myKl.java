@@ -6,10 +6,12 @@ import java.awt.event.KeyListener;
 public class myKl
   implements KeyListener
 {
-  Control view;
+  Control control;
+  View view;
   
-  public myKl(Control view)
+  public myKl(View view, Control control)
   {
+    this.control = control;
     this.view = view;
   }
   
@@ -17,17 +19,19 @@ public class myKl
   {
 	  int code = e.getKeyCode();
 	  if (code ==37){//left arrow
-	  this.view.swipe(0);
+	  view.values = control.swipe(0);
+	  System.out.println("left arrow pressed");
 	  }
 	  if (code ==39){//right arrow
-	  this.view.swipe(1);
+		  view.values = control.swipe(1);
 	  }
 	  if (code ==38){//up arrow
-		  this.view.swipe(2);
+		  view.values = control.swipe(2);
 	  }
 	  if (code ==40){//down arrow
-		  this.view.swipe(3);
+		  view.values = control.swipe(3);
 	  }
+	  view.repaint();
   }
   
   public void keyReleased(KeyEvent e) {}

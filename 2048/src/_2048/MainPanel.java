@@ -4,21 +4,22 @@ package _2048;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-public class Hoofdpaneel
+public class MainPanel
   extends JPanel
 {
   private static final long serialVersionUID = 1L;
   
-  public Hoofdpaneel()
+  public MainPanel()
   {
     setLayout(new BorderLayout());
-    Control view = new Control();  
-    Infoboard infoboard = new Infoboard(view);
+    Control control = new Control();  
+    View view = new View(control);
+    Infoboard infoboard = new Infoboard(control);
     //add(infoboard, BorderLayout.NORTH);
     add(view, "Center");
     add(infoboard, "East");
     view.setFocusable(true);       
-    view.addKeyListener(new myKl(view));
+    view.addKeyListener(new myKl( view, control));
     //view.addActionListener(new MyKb());
     //view.requestFocus();
   }

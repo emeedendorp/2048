@@ -15,7 +15,7 @@ public class Main
     frame.setSize(500, 600);
     frame.setDefaultCloseOperation(3);
     frame.setTitle("2048");
-    frame.setContentPane(new Hoofdpaneel());
+    frame.setContentPane(new MainPanel());
     frame.setVisible(true);
   }
 }
