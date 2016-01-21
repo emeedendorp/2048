@@ -7,19 +7,19 @@ public class Sort{
     
 	public static ArrayList<Integer> right ( ArrayList<Integer> row){
     	ArrayList<Integer> newRow = new ArrayList<Integer>();
-    	row = sumRight(row);
     	// get zeros
     	for (int i = 0; i < row.size(); i ++){
     		if (row.get(i)==0){
     			newRow.add(0);
     		}
     	}
-    	// get all values
+    	// get all nonzero values
     	for (int i = 0; i < row.size(); i ++){
     		if (row.get(i)!=0){
     			newRow.add(row.get(i));
     		}
     	}
+    	newRow = sumRight(newRow);
     	return newRow;
  
     }
@@ -143,5 +143,5 @@ public class Sort{
 		return newRow;
 	}
 
-}
 
+}

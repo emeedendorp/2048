@@ -18,7 +18,7 @@ public class Addfont
     try
     {
       myStream = new BufferedInputStream(
-        new FileInputStream("BADABB__.ttf"));
+        new FileInputStream("src/BADABB__.ttf"));
       ttfBase = Font.createFont(0, myStream);
       VarySharky = ttfBase.deriveFont(0, 24.0F);
     }

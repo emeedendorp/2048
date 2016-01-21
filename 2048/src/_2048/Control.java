@@ -1,6 +1,5 @@
 package _2048;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -44,6 +43,7 @@ public class Control extends JPanel {
 
 	// **** NEW SETUP ******
 	public ArrayList<Integer> swipe(int direction) {
+		boolean addNewValue = checkForNewNumber(direction, values);
 		if (checkFull()) {
 			System.out.print(values + " -> ");
 			System.out.println("No more moves.");
@@ -74,62 +74,93 @@ public class Control extends JPanel {
 		}
 		values = convertToList(returnList);
 		// check if anything changes -
-		if (checkForNewNumber(direction)) {
+		if (addNewValue) {
 			addNewValue();
 		}
 		repaint();
 		return values;
 	}
 
-	private boolean checkForNewNumber(int richting) {
+	private boolean checkForNewNumber(int direction, ArrayList<Integer> values) {
 		// TODO Auto-generated method stub
-		int counter = 0;
-		boolean status = true;
+		/**
+		
+		
 		boolean addNumber = true;
 		boolean fullRows = true;
 		int currentValue = -1;
-		if (richting == 0) {
-			// check if swipe left has any effect
+		**/
+		
+		boolean status = true;
+		int counter = 0;
+		ArrayList<Integer> row = new ArrayList<Integer>();
+		//check if swipe right / right arrow has any effect
+		if (direction == 1){
+			status = false;
 			for (int i = 0; i < rows; i++) {
-				int value = values.get(counter);
-				currentValue = -1;
-				for (int j = 0; j < columns; j++) {
-					if (value == 0) {
-						status = false;
-					}
-					if ((value != 0) && (status == false)) {
-						System.out.println("status set to false(2)");
-						return false;
-					}
-					if ((value == currentValue) && (value != 0)) {
-						System.out.println(value + " " + currentValue);
-						System.out.println("status set to false(3)");
-						return false;
-					}
-					if ((j == columns - 1) && value == 0) {
-						fullRows = false;
-
-					}
-					currentValue = values.get(counter);
-					System.out.println(currentValue);
+				Console.printValues("after swipe right", values, rows, columns);
+				row = new ArrayList<Integer>();
+				System.out.println("ccc: " + counter);
+				counter = counter + columns-1;
+				System.out.print("hier" + values.get(counter) + " counter -> " + counter);
+				for (int j = columns-1 ; j >= 0 ; j--){
+					row.add(values.get(counter));
+					System.out.println("adding " + values.get(counter) + " ->counter = " + counter);
+					counter--;
+				}
+				System.out.print("row(1):" + row);
+				if (checkForMoves(row)){
+				
+					status = true;
+				}	
+				counter= 0;
+			}
+		}
+		// check if swipe left has any effect
+		if (direction == 0) {
+			status = false;
+			
+			Console.printValues(values, rows, columns);
+			for (int i = 0; i < rows; i++) {
+				row = new ArrayList<Integer>();
+				for (int j = 0 ; j < columns ; j++){
+					row.add(values.get(counter));
 					counter++;
 				}
+				if (checkForMoves(row)){;
+					status = true;
+				}				
 			}
-			if (fullRows) {
-				addNumber = false;
-				System.out.println("status set to false(4)");
+
+		}
+		return status;
+	}
+	
+	private boolean checkForMoves(ArrayList<Integer> values){
+			boolean status = false;
+			boolean zerostatus = false;
+			int lastvalue = values.get(0);
+			if (values.get(0)==0){
+				zerostatus = true;
+				System.out.println("zerostatus: "+ zerostatus);
 			}
-		}
-		if (richting == 1) {
-			// check if swipe right has any effect
-		}
-		if (richting == 2) {
-			// check if swipe up has any effect
-		}
-		if (richting == 3) {
-			// check if swipe down has any effect
-		}
-		return addNumber;
+			for (int i = 1; i < values.size(); i++){
+				System.out.println(values.get(i) + " -- " + lastvalue);
+				if ((zerostatus)&&(values.get(i)!=0)){
+					status = true;
+				}
+				if ((lastvalue == values.get(i))&&(lastvalue!=0)){
+					status = true;
+					System.out.println("  --->  set to true");
+				}
+				if (values.get(i)!=0){
+					lastvalue = values.get(i);
+				}
+			}
+		System.out.println("Status: "+ status);
+		// status true -> there are moves left
+		// status false -> no moves left
+		return status;	
 	}
 
 	protected boolean checkFull() {

@@ -19,8 +19,8 @@ public class myKl
   {
 	  int code = e.getKeyCode();
 	  if (code ==37){//left arrow
-	  view.values = control.swipe(0);
-	  System.out.println("left arrow pressed");
+		  Console.printValues("From KL",view.values, view.rows, view.columns);
+		  view.values = control.swipe(0);
 	  }
 	  if (code ==39){//right arrow
 		  view.values = control.swipe(1);
