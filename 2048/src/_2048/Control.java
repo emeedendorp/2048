@@ -1,6 +1,7 @@
 package _2048;
 
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class Control extends JPanel {
@@ -28,8 +29,6 @@ public class Control extends JPanel {
 			startvalue2 = (int) (Math.random() * rows * columns);
 		}
 		values.set(startvalue2, 2);
-		ArrayList<Integer> testValues = values;
-		System.out.println("Testvalues: " + Sort.right(testValues));
 	}
 
 	// TODO fix getscore() to view
@@ -41,7 +40,6 @@ public class Control extends JPanel {
 		return score;
 	}
 
-	// **** NEW SETUP ******
 	public ArrayList<Integer> swipe(int direction) {
 		boolean addNewValue = checkForNewNumber(direction, values);
 		if (checkFull()) {
@@ -82,15 +80,6 @@ public class Control extends JPanel {
 	}
 
 	private boolean checkForNewNumber(int direction, ArrayList<Integer> values) {
-		// TODO Auto-generated method stub
-		/**
-		
-		
-		boolean addNumber = true;
-		boolean fullRows = true;
-		int currentValue = -1;
-		**/
-		
 		boolean status = true;
 		int counter = 0;
 		ArrayList<Integer> row = new ArrayList<Integer>();
@@ -98,17 +87,12 @@ public class Control extends JPanel {
 		if (direction == 1){
 			status = false;
 			for (int i = 0; i < rows; i++) {
-				Console.printValues("after swipe right", values, rows, columns);
 				row = new ArrayList<Integer>();
-				System.out.println("ccc: " + counter);
 				counter = counter + columns-1;
-				System.out.print("hier" + values.get(counter) + " counter -> " + counter);
 				for (int j = columns-1 ; j >= 0 ; j--){
 					row.add(values.get(counter));
-					System.out.println("adding " + values.get(counter) + " ->counter = " + counter);
 					counter--;
 				}
-				System.out.print("row(1):" + row);
 				if (checkForMoves(row)){
 				
 					status = true;
@@ -119,8 +103,6 @@ public class Control extends JPanel {
 		// check if swipe left has any effect
 		if (direction == 0) {
 			status = false;
-			
-			Console.printValues(values, rows, columns);
 			for (int i = 0; i < rows; i++) {
 				row = new ArrayList<Integer>();
 				for (int j = 0 ; j < columns ; j++){
@@ -142,22 +124,18 @@ public class Control extends JPanel {
 			int lastvalue = values.get(0);
 			if (values.get(0)==0){
 				zerostatus = true;
-				System.out.println("zerostatus: "+ zerostatus);
 			}
 			for (int i = 1; i < values.size(); i++){
-				System.out.println(values.get(i) + " -- " + lastvalue);
 				if ((zerostatus)&&(values.get(i)!=0)){
 					status = true;
 				}
 				if ((lastvalue == values.get(i))&&(lastvalue!=0)){
 					status = true;
-					System.out.println("  --->  set to true");
 				}
 				if (values.get(i)!=0){
 					lastvalue = values.get(i);
 				}
 			}
-		System.out.println("Status: "+ status);
 		// status true -> there are moves left
 		// status false -> no moves left
 		return status;	

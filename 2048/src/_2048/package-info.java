@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author YB
+ * @author Eppo Meedendorp
  *
  */
 package _2048;

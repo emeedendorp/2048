@@ -7,13 +7,13 @@ import javax.swing.JPanel;
 
 public class Infoboard extends JPanel{
 	private static final long serialVersionUID = 1L;
-	JButton test = new JButton("test");
-	Control view;
-	public Infoboard(Control view){
+	JButton test = new JButton("Score"+ "");
+	Control control;
+	public Infoboard(Control control){
 		add(test);
-		this.view = view;
+		this.control = control;
 	}
 	public void paintComponent(Graphics g){
-		g.drawString("Score: " + view.score, 25, 25);
+		g.drawString("Score: " + control.score, 225, 225);
 	}
 }

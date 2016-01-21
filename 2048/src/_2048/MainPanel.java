@@ -19,7 +19,7 @@ public class MainPanel
     add(view, "Center");
     add(infoboard, "East");
     view.setFocusable(true);       
-    view.addKeyListener(new myKl( view, control));
+    view.addKeyListener(new MyKl( view, control));
     //view.addActionListener(new MyKb());
     //view.requestFocus();
   }

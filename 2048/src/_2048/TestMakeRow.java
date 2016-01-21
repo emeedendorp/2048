@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MakeRowTest {
+public class TestMakeRow {
 
 	@Test
 	public void testMakeRows() {

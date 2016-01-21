@@ -3,13 +3,13 @@ package _2048;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class myKl
+public class MyKl
   implements KeyListener
 {
   Control control;
   View view;
   
-  public myKl(View view, Control control)
+  public MyKl(View view, Control control)
   {
     this.control = control;
     this.view = view;
@@ -19,7 +19,6 @@ public class myKl
   {
 	  int code = e.getKeyCode();
 	  if (code ==37){//left arrow
-		  Console.printValues("From KL",view.values, view.rows, view.columns);
 		  view.values = control.swipe(0);
 	  }
 	  if (code ==39){//right arrow
