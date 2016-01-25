@@ -10,9 +10,10 @@ public class Control extends JPanel {
 	Settings settings;
 	ArrayList<Integer> values;
 	int rows, columns, score;
+	boolean started = false;
 
 	public Control() {
-
+		score = 0;
 		settings = new Settings();
 		settings.applySettingsToView(this);
 		values = new ArrayList<Integer>(rows * columns);
@@ -31,13 +32,12 @@ public class Control extends JPanel {
 		values.set(startvalue2, 2);
 	}
 
-	// TODO fix getscore() to view
-	private int getScore() {
+	private void setScore() {
 		int score = 0;
 		for (int i = 0; i < values.size(); i++) {
 			score += values.get(i);
 		}
-		return score;
+		this.score = score;
 	}
 
 	public ArrayList<Integer> swipe(int direction) {
@@ -75,46 +75,71 @@ public class Control extends JPanel {
 		if (addNewValue) {
 			addNewValue();
 		}
+		setScore();
 		repaint();
 		return values;
 	}
 
 	private boolean checkForNewNumber(int direction, ArrayList<Integer> values) {
-		boolean status = true;
+		boolean status = false;
 		int counter = 0;
 		ArrayList<Integer> row = new ArrayList<Integer>();
-		//check if swipe right / right arrow has any effect
-		if (direction == 1){
-			status = false;
+		//check if right or down has any effect
+		if ((direction == 1) || (direction == 3)){
+			if (direction == 3){
+				values = Util.mergeArray(Util.transpose(Util.splitArray(values, rows)));
+			}
 			for (int i = 0; i < rows; i++) {
 				row = new ArrayList<Integer>();
 				counter = counter + columns-1;
 				for (int j = columns-1 ; j >= 0 ; j--){
 					row.add(values.get(counter));
-					counter--;
+					counter--;				
+					if (checkForMoves(row)){
+						status = true;
+					}	
 				}
-				if (checkForMoves(row)){
-				
-					status = true;
-				}	
 				counter= 0;
 			}
 		}
-		// check if swipe left has any effect
-		if (direction == 0) {
-			status = false;
+		// check if arrow up or left has any effect
+		if ((direction == 0) || (direction == 2)) {
+			if (direction == 2){
+				values = Util.mergeArray(Util.transpose(Util.splitArray(values, rows)));
+			}
 			for (int i = 0; i < rows; i++) {
 				row = new ArrayList<Integer>();
+				
 				for (int j = 0 ; j < columns ; j++){
 					row.add(values.get(counter));
 					counter++;
 				}
+				
 				if (checkForMoves(row)){;
 					status = true;
-				}				
-			}
+				}	
 
-		}
+				
+			}
+		}		
+		
+		
+		//TODO check if swipe up has any effect
+		if (direction == 2) {
+			/**ArrayList<ArrayList<Integer>> arrayToTranspose = new ArrayList<ArrayList<Integer>>();
+			ArrayList<Integer> t_row = new ArrayList<Integer>();
+			int t_counter = 0;
+			for (int i=0 ; i < rows; i++){
+				for (int j = 0; j > columns; j ++){
+					t_row.add(values.get(t_counter));
+					t_counter++;
+				}
+				arrayToTranspose.add(t_row);
+				t_row = new ArrayList<Integer>();
+			}
+			arrayToTranspose = transpose(arrayToTranspose);
+			**/
+		}	
 		return status;
 	}
 	
@@ -287,5 +312,8 @@ public class Control extends JPanel {
 
 	void setColumns(int columns) {
 		this.columns = columns;
+	}
+	public int getScore(){
+		return score;
 	}
 }

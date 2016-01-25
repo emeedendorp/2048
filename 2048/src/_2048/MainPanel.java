@@ -2,6 +2,7 @@ package _2048;
 
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 
 public class MainPanel
@@ -19,8 +20,10 @@ public class MainPanel
     add(view, "Center");
     add(infoboard, "East");
     view.setFocusable(true);       
-    view.addKeyListener(new MyKl( view, control));
-    //view.addActionListener(new MyKb());
-    //view.requestFocus();
+    view.add(new ActionListener(view,control,infoboard));
   }
+  
+
+
+	
 }

@@ -7,13 +7,19 @@ import javax.swing.JPanel;
 
 public class Infoboard extends JPanel{
 	private static final long serialVersionUID = 1L;
-	JButton test = new JButton("Score"+ "");
+	JButton start = new JButton("New Game");
 	Control control;
+	
+	
 	public Infoboard(Control control){
-		add(test);
+		start.addActionListener(new StartButtonHandler(control));
+		add(start);
+
+	    start.setFocusable(false); 
 		this.control = control;
 	}
 	public void paintComponent(Graphics g){
-		g.drawString("Score: " + control.score, 225, 225);
+		super.paintComponent(g);
+		g.drawString("Score: " + control.getScore(), 10, 50);
 	}
 }
