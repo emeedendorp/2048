@@ -3,9 +3,12 @@ package _2048;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 public class StartButtonHandler implements ActionListener {
 
 	Control control;
+	Infoboard infoboard;
 	
 	public StartButtonHandler(Control control){
 		this.control = control;
@@ -13,11 +16,7 @@ public class StartButtonHandler implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("kh gets started as " + control.started);
 		control.started = true;
-		System.out.println("kh set started as " + control.started);
-		// TODO Auto-generated method stub
-
 	}
 
 }

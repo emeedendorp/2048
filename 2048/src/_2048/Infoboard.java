@@ -10,12 +10,9 @@ public class Infoboard extends JPanel{
 	JButton start = new JButton("New Game");
 	Control control;
 	
-	
 	public Infoboard(Control control){
 		start.addActionListener(new StartButtonHandler(control));
 		add(start);
-
-	    start.setFocusable(false); 
 		this.control = control;
 	}
 	public void paintComponent(Graphics g){

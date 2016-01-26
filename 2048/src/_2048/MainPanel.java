@@ -16,7 +16,6 @@ public class MainPanel
     Control control = new Control();  
     View view = new View(control);
     Infoboard infoboard = new Infoboard(control);
-    //add(infoboard, BorderLayout.NORTH);
     add(view, "Center");
     add(infoboard, "East");
     view.setFocusable(true);       

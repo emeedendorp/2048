@@ -1,13 +1,14 @@
 package _2048;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.*;
 
 
-@SuppressWarnings("serial")
 public class ActionListener extends JPanel {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Control control;
 	View view;
 	Infoboard infoboard;
@@ -26,9 +27,10 @@ public class ActionListener extends JPanel {
    }
 
    private class MyArrowBinding extends AbstractAction {
-      public MyArrowBinding(String text) {
+	private static final long serialVersionUID = 1L;
+
+	public MyArrowBinding(String text) {
         putValue(ACTION_COMMAND_KEY, text);
-        System.out.println("text: "+ text);
       }
 
       @Override
