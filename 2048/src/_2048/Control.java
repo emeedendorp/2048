@@ -41,6 +41,7 @@ public class Control extends JPanel {
 	}
 
 	public ArrayList<Integer> swipe(int direction) {
+		GameModes mode = new GameModes(1);
 		boolean addNewValue = checkForNewNumber(direction, values);
 		if (checkFull()) {
 			System.out.print(values + " -> ");

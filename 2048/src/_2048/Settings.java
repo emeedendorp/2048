@@ -5,7 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 
 public class Settings {
-	  int x,y,width,height,rows, columns,newx, newy, iterations;
+	  int x,y,width,height,rows, columns,newx, newy, iterations, gamemode;
 	  Color background,foreground,fontcolor;
 	  FontMetrics fm;
 	  GradientPaint redtowhite, bluetogreen,test1,test2;
@@ -27,9 +27,13 @@ public class Settings {
 		foreground = Color.BLACK;
 		fontcolor = Color.white;
 		  
-		// settings for view  
+		// settings for control 
 		rows = 4;
 		columns = 4;
+		
+		//settings for infoBoard
+		gamemode = 1;
+
 		
 		  
 		// --- settings not used
@@ -49,8 +53,8 @@ public class Settings {
 		tile.setBackground(background);	
 		tile.setColorscheme(colorscheme);
 	}
-	void applySettingsToView(Control view){
-		view.setRows(rows);
-		view.setColumns(columns);
+	void applySettingsToView(Control control){
+		control.setRows(rows);
+		control.setColumns(columns);
 	}
 }

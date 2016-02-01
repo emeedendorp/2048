@@ -3,8 +3,6 @@ package _2048;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
 public class StartButtonHandler implements ActionListener {
 
 	Control control;
@@ -16,7 +14,6 @@ public class StartButtonHandler implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		control.started = true;
-	}
+		control.started = true;	}
 
 }
